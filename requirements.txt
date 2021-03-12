@@ -16,7 +16,10 @@ sentence_transformers
 #matplotlib
 #pandas
 numpy
-sklearn
-# Another topic modeler
 bertopic
 pywsd
+stop-words
+bertopic
+sklearn
+flair
+psutil
