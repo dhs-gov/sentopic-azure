@@ -44,15 +44,15 @@ async def main(req: func.HttpRequest, starter: str) -> func.HttpResponse:
 
         instance_id = await client.start_new(req.route_params["functionName"], None, data_in)
 
-        ###logging.info(f"Started orchestration with ID = '{instance_id}'.")
+        logging.info(f"Started orchestration with ID = '{instance_id}'.")
 
-        ###response = client.create_check_status_response(req, instance_id)
+        response = client.create_check_status_response(req, instance_id)
 
         # Always clear Azure cache so it doesn't try to 'replay' this activity
         #  in cache.
         purge_results = df.DurableOrchestrationClient.purge_instance_history
         print("purge_results: ", purge_results)
 
-        ###return response
-        return "Completed"
+        return response
+        #return "Completed"
 
