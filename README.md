@@ -34,56 +34,56 @@ SenTopic combines sentiment analysis and topic modeling by performing both at th
 | It introduced efficiencies on the offerors side and the governments side. Time and resources were saved by both during the initial phase. | 2	| 1	| positive | 5_stars |
 
 
-## API v1
+# API (v1)
 
-<div style="background: black; ">
-<h1 style="text-color: blue; ">Color</h1>
-
-```json
-{name: "John", age: 31, city: "New York"}
-```
-</div>
-
-
-
-
-### Submit Data
+## Submit Data
 
 Description: Submit data for analysis.  
 Method:  `POST`  
 URL:  `https://<domain>/sentopic`   
 
-### Request
+## Request
 
 | Key | Value | Required | Description |
 | :--- | :----: | :----: | :----: |
 | None | None | NA | No query parameters required for v1.|
 
-### Headers
+## Headers
 
 | Key | Value | Required | Description |
-| :--- | :----: | :----: | :----: |
-| `Content-Type` | `application/json` | Optional | Use for JSON data.|
-| `Content-Type` | `multipart/form-data` | Optional | Use for file data.|
+| :--- | :----: | :----: | :--- |
+| `Content-Type` | `application/json`<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or file payload. If both JSON and file payload are submitted, the JSON file must be attached as a file (see below). |
 
-### Body
-
+## Body / Payload
+### JSON Only
+```json
+curl --location --request POST 'https://<domain>/sentopic' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "documents": [
+            {
+                "id": "1",
+                "text": "This is a test of the SenTopic Azure Durable Function. It'\''s great."
+            },
+            {
+                "id": "2",
+                "text": "This is another test of the SenTopic Azure Durable Function."
+            }
+        ]
+    }'
 ```
-{  
-    "documents": [  
-        {  
-            "id": "1",  
-            "text": "The presentation was very informative. I highly recommend!"
-        },
-                {
-            "id": "2",
-            "text": "I did not like the presentation."
-        }
-    ]
-}
+### File 
+
+```bash
+curl --location --request POST 'https://<domain>/sentopic' \
+    --header 'Content-Type: multipart/form-data' \
+    --form 'id="1"' \
+    --form 'file=@"data_file.json"' \
+    --form 'file=@"data_file.csv"' \
 ```
 
-### Response Codes
+
+## Response Codes
 
 | HTTP Code | Payload | Description |
 | :--- | :----: | :--- |
@@ -92,9 +92,9 @@ URL:  `https://<domain>/sentopic`
 | `400` | Error Message | Invalid input.|
 | `500` | None | System internal error.|
 
-### HTTP 202 Response Example
+## HTTP 202 Response Example
 
-```
+```json
 {
     "id": "1befa48c1d4644c7856803c0b3c797b9",
     "statusQueryGetUri": "http://localhost:7071/runtime/webhooks/durabletask/a",
@@ -105,7 +105,7 @@ URL:  `https://<domain>/sentopic`
 }
 ```
 
-### Results Example
+## Results Example
 When processing is completed, selecting the XXX link will show the results in JSON. 
 NOTE: Azure Durable Functions return all JSON results surround by double quotes. The 
 consumer of this data will be required to remove these surrounding double quotes 
@@ -114,7 +114,7 @@ JSON output, as well as all values. The consumer of this data will be required t
 remove all escape characters ('\') in the output before consuming this data for 
 processing.
 
-```
+```json
 {
     "name":"sentopic",
     "instanceId":"6ac3135add3e4ab88add88e0ba6c05bc",
@@ -144,9 +144,9 @@ processing.
 }
 ```
 
-### BERTopic Example
+## BERTopic Example
 
 
-### LDA Example
+## LDA Example
 
 
