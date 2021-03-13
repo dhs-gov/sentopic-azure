@@ -36,9 +36,12 @@ SenTopic combines sentiment analysis and topic modeling by performing both at th
 
 ## API v1
 
-<div style="color: black; ">
-<h1 style="color: blue; ">Color</h1>
+<div style="background: black; ">
+<h1 style="text-color: blue; ">Color</h1>
 
+```json
+{name: "John", age: 31, city: "New York"}
+```
 </div>
 
 
