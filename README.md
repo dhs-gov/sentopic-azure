@@ -5,7 +5,7 @@ Version: 0.1a
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) 
 
 
-SenTopic combines sentiment analysis and topic modeling into a single capability allowing for sentiment to be derived per generated topic and for topics to be derived per generated sentiment. 
+SenTopic combines sentiment analysis and topic modeling into a single capability allowing for sentiment to be derived per generated topic and for topics to be derived per generated sentiment. This version of SenTopic is implemented as an asynchronous Azure Durable Function service and includes required Azure modules for endpoint, orchestrator, and activity.
 
 ## Sentiment Analysis
 
@@ -36,12 +36,107 @@ SenTopic combines sentiment analysis and topic modeling by performing both at th
 
 ## API v1
 
+
 ### Submit Data
-Method: 'POST'  
-URL: 'https://<domain>/sentopic'   
+
+Description: Submit data for analysis.  
+Method:  `POST`  
+URL:  `https://<domain>/sentopic`   
 
 ### Request
-| Key | Value | Description |
-| :--- | :----: | :----: |
-| None | None| No query parameters required for v1.|
+
+| Key | Value | Required | Description |
+| :--- | :----: | :----: | :----: |
+| None | None | NA | No query parameters required for v1.|
+
+### Headers
+
+| Key | Value | Required | Description |
+| :--- | :----: | :----: | :----: |
+| `Content-Type` | `application/json` | Optional | Use for JSON data.|
+| `Content-Type` | `multipart/form-data` | Optional | Use for file data.|
+
+### Body
+
+```
+{  
+    "documents": [  
+        {  
+            "id": "1",  
+            "text": "The presentation was very informative. I highly recommend!"
+        },
+                {
+            "id": "2",
+            "text": "I did not like the presentation."
+        }
+    ]
+}
+```
+
+### Response Codes
+
+| HTTP Code | Payload | Description |
+| :--- | :----: | :--- |
+| `200` | None | Request successful.|
+| `202` | Multiple Links | Submission successfully accepted. Multiple URL links are returned to allow for checking the status of processing as well as retrieving results.|
+| `400` | Error Message | Invalid input.|
+| `500` | None | System internal error.|
+
+### HTTP 202 Response Example
+
+```
+{
+    "id": "1befa48c1d4644c7856803c0b3c797b9",
+    "statusQueryGetUri": "http://localhost:7071/runtime/webhooks/durabletask/a",
+    "sendEventPostUri": "http://localhost:7071/runtime/webhooks/durabletask/b",
+    "terminatePostUri": "http://localhost:7071/runtime/webhooks/durabletask/c",
+    "rewindPostUri": "http://localhost:7071/runtime/webhooks/durabletask/d",
+    "purgeHistoryDeleteUri": "http://localhost:7071/runtime/webhooks/durabletask/e"
+}
+```
+
+### Results Example
+When processing is completed, selecting the XXX link will show the results in JSON. 
+NOTE: Azure Durable Functions return all JSON results surround by double quotes. The 
+consumer of this data will be required to remove these surrounding double quotes 
+before consuming this data for processing. In addition, Azure Durable Functions also adds escaped double quotes around keys in the 
+JSON output, as well as all values. The consumer of this data will be required to 
+remove all escape characters ('\') in the output before consuming this data for 
+processing.
+
+```
+{
+    "name":"sentopic",
+    "instanceId":"6ac3135add3e4ab88add88e0ba6c05bc",
+    "runtimeStatus":"Completed",
+    "input":"[\"This is the first document. \", \"This is another document. It is a fine document. \"]",
+    "customStatus":"NOTE: Asynchronous Azure Durable Functions add quotes around JSON output and also escape double quotes for JSON keys.",
+    "output":["
+        {\"paras\": 
+            [{\"text\": \"This is the first document.\", 
+            \"bertopic\": -1, 
+            \"lda\": 3, 
+            \"class3\": \"negative\", 
+            \"star5\": \"4_stars\"}, 
+        
+            {\"text\": \"This is another document. It is a fine document.\",       
+            \"bertopic\": 0, 
+            \"lda\": 2, 
+            \"class3\": \"positive\", 
+            \"star5\": \"5_stars\"}, 
+
+            ...
+
+            "],"createdTime":"2021-03-13T13:27:32Z","lastUpdatedTime":"2021-03-13T13:28:07Z"}
+    ],
+    "createdTime": "2021-03-13T12:59:48Z",
+    "lastUpdatedTime": "2021-03-13T13:00:21Z"
+}
+```
+
+### BERTopic Example
+
+
+### LDA Example
+
 
