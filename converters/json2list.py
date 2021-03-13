@@ -1,4 +1,7 @@
 
+from . import data_cleaner
+import nltk
+
 def get_data(json_obj):
     print("In json2list")
     docs = json_obj.get('documents')
@@ -11,6 +14,11 @@ def get_data(json_obj):
         #print("id: ", id)
         paragraph_text = paragraph_json.get("text")
         #print("text: ", paragraph_text)
-        paragraphs.append(paragraph_text)
+        
+        # Make sure text is not over max tokens
+        if len(nltk.word_tokenize(text)) > globalvars.MAX_TOKENS:
+            paragraph_text = globalutils.get_last_sentence(paragraph_text)
+        cleaned = data_cleaner.clean(paragraph_text)
+        paragraphs.append(cleaned)
 
     return None, paragraphs
