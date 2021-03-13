@@ -52,11 +52,12 @@ URL:  `https://<domain>/sentopic`
 
 | Key | Value | Required | Description |
 | :--- | :----: | :----: | :--- |
-| `Content-Type` | `application/json`<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or file payload. If both JSON and file payload are submitted, the JSON file must be attached as a file (see below). |
+| `Content-Type` | `application/json`<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or multi-part form payload. If both JSON and multi-part form payloads are submitted, the JSON payload must be attached as a file (See Multipart Form Data). |
 
 ## Body / Payload
 ### JSON Only
-```json
+
+```bash
 curl --location --request POST 'https://<domain>/sentopic' \
     --header 'Content-Type: application/json' \
     --data-raw '{
@@ -72,7 +73,8 @@ curl --location --request POST 'https://<domain>/sentopic' \
         ]
     }'
 ```
-### File 
+
+### Multipart Form Data 
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic' \
