@@ -11,17 +11,11 @@ import json
 import jsonpickle
 
 
-class Resultz:
+class Result:
     def __init__(self, paras, berts, ldas):
         self.paras = paras
         self.berts = berts
         self.ldas = ldas
-
-class Res:
-    def __init__(self, p, bert, lda):
-        self.p
-        self.bert
-        self.lda
 
 class Paragraph:
     def __init__(self, text, bertopic, lda, class3, star5):
@@ -67,7 +61,7 @@ def main(name: object) -> json:
 
     
     # Create results data
-    paras = []
+    result = []
     fields = ['Text', 'BERT Topic', 'LDA Topic', '3-Class Sentiment', '5-Star Sentiment']
     for i in range(len(data_list)):
         if (data_list[i]):
@@ -84,7 +78,7 @@ def main(name: object) -> json:
                 class3_sentiment_rows[i].sentiment,
                 star5_sentiment_rows[i].sentiment
             )
-            paras.append(paragraph)
+            result.append(paragraph)
     
     # Create BERT topics data
     bert_topics = []
@@ -139,7 +133,7 @@ def main(name: object) -> json:
     #    csvwriter.writerows(rows)
 
    
-    r = Resultz(paras, bert_topics, lda_topics)
+    r = Result(result, bert_topics, lda_topics)
 
     json_out = jsonpickle.encode(r, unpicklable=False)
     #print("JSON STR OUT: ", json_out)

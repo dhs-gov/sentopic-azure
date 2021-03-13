@@ -13,7 +13,7 @@ def orchestrator_function(context: df.DurableOrchestrationContext):
 
     result1 = yield context.call_activity('sentopic_activity', data_in)
     print("RESULT: ", result1)
-    context.set_custom_status("NOTE: Asynchronous Azure Durable Functions add quotes around JSON output.")
+    context.set_custom_status("NOTE: Asynchronous Azure Durable Functions add quotes around JSON output and also add escaped double quotes around keys in the JSON output.")
     return [result1]
 
 
