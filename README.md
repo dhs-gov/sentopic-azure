@@ -34,40 +34,14 @@ SenTopic combines sentiment analysis and topic modeling by performing both at th
 | It introduced efficiencies on the offerors side and the governments side. Time and resources were saved by both during the initial phase. | 2	| 1	| positive | 5_stars |
 
 
-# API
+## API v1
 
-## Submit Data
-## Request
+### Submit Data
+Method: 'POST'  
+URL: 'https://<domain>/sentopic'   
 
+### Request
+| Key | Value | Description |
+| :--- | :----: | :----: |
+| None | None| No query parameters required for v1.|
 
-<div>
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="readme.css">
-</head>
-<body>
-
-<!-- -------------------------------------------------->
-<table class="blueTable">
-<thead>
-<tr>
-<th>Key</th>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>No query parameters required.</td>
-</tr>
-</tbody>
-</table>
-
-
-<!-- -------------------------------------------------->
-</body>
-</html>
-</div>
