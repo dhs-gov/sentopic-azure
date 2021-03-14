@@ -305,8 +305,8 @@ def get_topics(csv_rows, num_topics):
             key_list.append(key_weight_list[k].key)
             scrubbed_weight = key_weight_list[k].weight.tolist()
             print("Scrubbed weight: ", scrubbed_weight)
-            weight_list.append(scrubbed_weight)
-            print("LDA key: ", key_weight_list[k].key, " value: ", key_weight_list[k].weight)
+            weight_list.append(str(scrubbed_weight))
+            print("LDA key: ", key_weight_list[k].key, " value: ", str(key_weight_list[k].weight))
 
         topic = Topic(i, key_list, weight_list)
         i = i+1
