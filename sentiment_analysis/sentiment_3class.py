@@ -71,10 +71,14 @@ def assess(classifier, csv_rows):
     sentiments = []
     i = 0
     for csv_row in csv_rows:
+        print("csv_row: ", csv_row)
         sentiment = get_sentiment(classifier, csv_row)
         if sentiment:
             sentiments.append(sentiment)
         else:
             print("Error: sentiment is NoneType")
+        if i % 10 == 0:
+            print("i % 10: ", i)
+        i = i + 1
 
     return sentiments
