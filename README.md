@@ -44,10 +44,27 @@ Method:  `POST`
 URL:  `https://<domain>/sentopic`   
 
 ## Request
+The following query parameters will be supported. 
 
-| Key | Value | Required | Description |
-| :--- | :----: | :----: | :----: |
-| None | None | NA | No query parameters required for v1.|
+| Key | Value | Required | Available | Description |
+| :--- | :----: | :----: | :----: | :--- |
+| lda_num | int | No | Coming Soon | Set number of LDA topics.|
+| lda_lemma | boolean | No | Coming Soon | Set use of LDA lemmatizer.|
+| lda_alpha | float | No | Coming Soon | Set LDA document-topic density.|
+| lda_v | int | No | Coming Soon | Set vocabulary size.|
+| bert_embed | string | No | Coming Soon | Set transformer embedding (e.g., 'roberta-large').|
+| bert_min_cluster | int | No | Coming Soon | Set HDBSCAN min cluster.|
+| bert_hdbscan_metric | string | No | Coming Soon | Specify HDBSCAN metric (e.g., 'euclidean').
+| bert_cluster_select | int | No | Coming Soon | Specify HDBSCAN cluster selection.|
+| bert_predict | boolean | No | Coming Soon | Set HDBSCAN prediction.|
+| bert_neighbor | int | No | Coming Soon | Set UMAP n-neighbors.|
+| bert_component | int | No | Coming Soon | Set UMAP n-components.|
+| bert_min_dist | int | No | Coming Soon | Set UMAP min distance.|
+| bert_umap_metric | string | No | Coming Soon | Set UMAP metric (e.g., 'cosine').|
+| bert_metric | int | No | Coming Soon | Set UMAP metric.|
+| bert_ngram | int | No | Coming Soon | Set vectorizer n-gram range.|
+
+
 
 ## Headers
 
@@ -163,107 +180,124 @@ The following shows partial results without surrounding double quotes or quoted 
             ...
         ]
         ,
-    "output": [
-        {
-            "result": 
-                [
-                    {
-                        "text": "Having to report to work without being provided PPE.", 
-                        "bertopic": 3, 
-                        "lda": 0, 
-                        "class3": "negative", 
-                        "star5": "1_star"
-                    }
-                    , 
-                    {
-                        "text": "Teleworking at home.", 
-                        "bertopic": 3, 
-                        "lda": 2, 
-                        "class3": "neutral",
-                        "star5": "3_stars"
-                    }
-                    , 
-                    {
-                        "text": "Things are good. Im ready to do the mission.", 
-                        "bertopic": 3, 
-                        "lda": 1, 
-                        "class3": "positive",
-                        "star5": "4_stars"
-                    }
-                    ,
-                    ...
-                ]
+    "output": 
+        [
+            {
+                "result": 
+                    [
+                        {
+                            "text": "Having to report to work without being provided PPE.", 
+                            "bertopic": 3, 
+                            "lda": 0, 
+                            "class3": "negative", 
+                            "star5": "1_star"
+                        }
+                        , 
+                        {
+                            "text": "Teleworking at home.", 
+                            "bertopic": 3, 
+                            "lda": 2, 
+                            "class3": "neutral",
+                            "star5": "3_stars"
+                        }
+                        , 
+                        {
+                            "text": "Things are good. Im ready to do the mission.", 
+                            "bertopic": 3, 
+                            "lda": 1, 
+                            "class3": "positive",
+                            "star5": "4_stars"
+                        }
+                        ,
+                        ...
+                    ]
                 ,
-            "bert_topics": 
-                [
+                "bert_topics": 
                     [
                         {
-                            "word": "office", 
-                            "weight": "0.02923134401914028"
-                        }
-                        ,
+                            "topic_num": 1,
+                            "words": 
+                                [
+                                    "office",
+                                    "worried",
+                                    "pandemic",
+                                    ...
+                                ]
+                                ,
+                            "weights": 
+                                [
+                                    "0.02923134401914028",
+                                    "0.024890853269684016",
+                                    "0.017575496779442725",
+                                    ...
+                                ]
+                        },
                         {
-                            "word": "worried", 
-                            "weight": "0.024890853269684016"
-                        }
-                        , 
-                        {
-                            "word": "pandemic", 
-                            "weight": "0.017575496779442725"
+                            "topic_num": 0,
+                            "words": 
+                                [
+                                    "ppe",
+                                    "sick",
+                                    "basic",
+                                    ...
+                                ]
+                                ,
+                            "weights": 
+                                [
+                                    "0.031044011584768025",
+                                    "0.023283008688576017",
+                                    "0.018350063606810418",
+                                    ...
+                                ]
                         }
                         ,
                         ...
                     ]
-                ]
-                , 
-               [
+                "lda_topics": 
                     [
                         {
-                            "word": "office", 
-                            "weight": "0.02923134401914028"
+                            "topic_num": 0,
+                            "words": 
+                                [
+                                    "office",
+                                    "contact",
+                                    "family",
+                                    ...
+                                ]
+                            ,
+                            "weights": 
+                                [
+                                    0.015873207055777317,
+                                    0.015873207055777317,
+                                    0.015873207055777317,
+                                    ...
+                                ]
                         }
                         ,
                         {
-                            "word": "worried", 
-                            "weight": "0.024890853269684016"
-                        }
-                        , 
-                        {
-                            "word": "pandemic", 
-                            "weight": "0.017575496779442725"
+                            "topic_num": 2,
+                            "words": 
+                                [
+                                    "management",
+                                    "ppe",
+                                    "worried",              
+                                    ...
+                                ]
+                            ,
+                            "weights": 
+                                [
+                                    0.020000736711478756,
+                                    0.020000736711478756,
+                                    0.015000546251962761,
+                                    ...
+                                ]
                         }
                         ,
                         ...
                     ]
-                ]
                 , 
-                ...
-
-
-            "lda_topics": 
-                [
-                    [
-                        {
-                            "word": "worried", 
-                            "weight": "0.03428619358724741"
-                        }
-                        ,
-                        {
-                            "word": "unnecessary", 
-                            "weight": "0.017143082435909174"
-                        }
-                        , 
-                        {
-                            "word": "medical", 
-                            "weight": "0.017143082435909174"
-                        }
-                        ,
-                        ...
-                    ]
-                ]
-                , 
-        }
-    ],
+            }
+        ],
     "createdTime": "2021-03-14T06:34:10Z",
     "lastUpdatedTime": "2021-03-14T06:34:43Z"
 }
