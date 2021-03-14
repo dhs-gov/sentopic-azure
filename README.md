@@ -89,7 +89,7 @@ curl --location --request POST 'https://<domain>/sentopic'
                 },
                 {
                     "text": "Things are good. Im ready to do the mission."
-                }
+                },
                 ...
             ],
         "stopwords":
