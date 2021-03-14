@@ -53,11 +53,11 @@ URL:  `https://<domain>/sentopic`
 
 | Key | Value | Required | Description |
 | :--- | :--- | :----: | :--- |
-| `Content-Type` | `application/json`<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or multi-part form payload. If both JSON and multi-part form payloads are submitted, the JSON payload must be attached as a file (See Multipart Form Data). |
+| `Content-Type` | `application/json`<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or multi-part form payloads. If both JSON and multi-part form payloads are submitted, the JSON payload must be attached as a file (See Multipart Form Data). |
 
 ## Body / Payload
 ### JSON
-JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
+SenTopic payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic'
@@ -100,7 +100,7 @@ SenTopic supports one or more file attachments. The supported file types include
 | `.pptx` | No | Coming soon.|
 
 
-Note that each file attachment may use the same `file` keyword. Optionally, a stop words list may be added using the file name `stopwords.txt`. 
+Note that each file attachment may use the same `file` parameter name. Optionally, a stop words list may be added using the file name `stopwords.txt`. 
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic' 
@@ -111,7 +111,7 @@ curl --location --request POST 'https://<domain>/sentopic'
 ```
 
 ## Response
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a  set of service endpoints that may be accessed to invoke further actions on the service. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a  set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
 
 | Service | Description |
 | :--- | :--- | 
@@ -134,18 +134,18 @@ Azure returns this set of endpoints as a JSON object.
 ```
 
 ## Response Codes
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will normally result in an `HTTP 202 Accepted` after it has received all data. 
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will normally result in an `HTTP 202 Accepted` after SenTopic has received all data. 
 
-| HTTP Code | Payload | Description |
+| Code | Payload | Description |
 | :--- | :----: | :--- |
-| `202` | Azure Endpoints | Submission successfully accepted. Multiple Azure endpoint URLs are returned to allow for checking the status of processing as well as retrieving results.|
+| `202` | Azure Endpoints | Submission successfully accepted. Multiple Azure endpoint URLs are returned to further actions, such as retrieving results.|
 | `400` | Error Message | Invalid input.|
 | `500` | None | System internal error.|
 
 ## Results
-SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string. In addition, Azure Durable Functions adds escaped double quotes around keys and values in the JSON output</i>. 
+SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string and adds escaped double quotes around keys and values.</i>. 
 
-The following shows the JSON output without surrounding double quotes and escaped double quotes.
+The following shows partial results without surrounding double quotes or quoted keys and values.
 
 ```json
 {
@@ -216,6 +216,30 @@ The following shows the JSON output without surrounding double quotes and escape
                     ]
                 ]
                 , 
+               [
+                    [
+                        {
+                            "word": "office", 
+                            "weight": "0.02923134401914028"
+                        }
+                        ,
+                        {
+                            "word": "worried", 
+                            "weight": "0.024890853269684016"
+                        }
+                        , 
+                        {
+                            "word": "pandemic", 
+                            "weight": "0.017575496779442725"
+                        }
+                        ,
+                        ...
+                    ]
+                ]
+                , 
+                ...
+
+
             "lda_topics": 
                 [
                     [
@@ -243,3 +267,5 @@ The following shows the JSON output without surrounding double quotes and escape
     "createdTime": "2021-03-14T06:34:10Z",
     "lastUpdatedTime": "2021-03-14T06:34:43Z"
 }
+
+Here, note that `output` contains `result`, `bert_topics`, and `lda_topics` keys. The `result` key contains a list of JSON objects for each document that includes the document text, its sentiment values, and its derive topic numbers. The `bert_topics` key contains the list of significant keywords or phrases 

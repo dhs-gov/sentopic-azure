@@ -45,7 +45,7 @@ async def main(req: func.HttpRequest, starter: str) -> func.HttpResponse:
 
     # Always clear Azure cache so it doesn't try to 'replay' this activity
     #  in cache.
-    purge_results = df.DurableOrchestrationClient.purge_instance_history
-    print("purge_results: ", purge_results)
+    purge_results = client.purge_instance_history(instance_id)
+    print("purge_results 2: ", purge_results)
 
     return response
