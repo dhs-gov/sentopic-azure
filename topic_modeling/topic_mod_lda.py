@@ -45,7 +45,7 @@ def get_topics(csv_rows, num_topics):
     # Create p_stemmer of class PorterStemmer
     p_stemmer = PorterStemmer()
 
-    # Text data to itterate over
+    # Text data to iterate over
     text_data = [line for line in csv_rows if line != '']
 
     # Convert text data into a list of comments after stop words and stemming are accounted for
@@ -105,8 +105,8 @@ def get_topics(csv_rows, num_topics):
     # Beta is the parameter for the prior topic distribution within documents
     beta = 0.001
 
-    # Text corpus itterations
-    corpus_itter = 200
+    # Text corpus iterations
+    corpus_iterations = 200
 
     # Number of topics
     K = num_topics
@@ -169,7 +169,7 @@ def get_topics(csv_rows, num_topics):
 
     # Main part of LDA algorithm (takes a few minutes to run)
     # Run through text corpus multiple times
-    for itter in range(corpus_itter):
+    for i in range(corpus_iterations):
 
         # Loop over all documents
         for doc in range(D):
@@ -182,7 +182,7 @@ def get_topics(csv_rows, num_topics):
                 # Initial word ID of word
                 word_id = text_ID[doc][word]
 
-                # Before finiding posterior probabilities, remove current word from count matrixes
+                # Before finding posterior probabilities, remove current word from count matrixes
                 doc_topic_count[doc][init_topic_assign] -= 1
                 word_topic_count[init_topic_assign][word_id] -= 1
 
@@ -223,15 +223,18 @@ def get_topics(csv_rows, num_topics):
     # Print topic distributions per sentence:
     topic_per_sentence = []
     for i in range(len(csv_rows)):
-        print(csv_rows[i])
-        print(theta[i])
+        #print(csv_rows[i])
+        #print(theta[i])
         topic_weight_list = theta[i].tolist()
         # Get index of largest value in list:
         topic_index = topic_weight_list.index(max(topic_weight_list))
-        print("Topic Index: ", topic_index)
+        #print("Topic Index: ", topic_index)
         topic_per_sentence.append(topic_index)
 
-    print("---------------------------------------------")
+    if not topic_per_sentence:
+        return None, None, "No LDA topics per sentence generated."
+
+    #print("---------------------------------------------")
 
     # Print document-topic mixture
     #print('Subset of document-topic mixture matrix: \n%s' % theta[0:3])
@@ -274,6 +277,9 @@ def get_topics(csv_rows, num_topics):
         # Create list of dictionaries
         list_dict_topics.append(mydict)
 
+    if not list_dict_topics:
+        return None, None, "No LDA list dict topics."
+
     # Get topic for each sentence
     i = 0
     topics = []
@@ -285,6 +291,9 @@ def get_topics(csv_rows, num_topics):
             key_weight = KeyWeight(key, value)
             key_weight_list.append(key_weight)
 
+        if not key_weight_list:
+            return None, None, "No LDA key weight list generated."
+            
         # SORT by weight!
         key_weight_list.sort(key=lambda k: k.weight, reverse=True)
 
@@ -292,14 +301,19 @@ def get_topics(csv_rows, num_topics):
         weight_list = []
         max_words_per_topic = 10
         for k in range(0, max_words_per_topic):
+            #print("k: ", k)
             key_list.append(key_weight_list[k].key)
-            weight_list.append(key_weight_list[k].weight)
-            print("key: ", key_weight_list[k].key, " value: ", key_weight_list[k].weight)
+            scrubbed_weight = key_weight_list[k].weight.tolist()
+            print("Scrubbed weight: ", scrubbed_weight)
+            weight_list.append(scrubbed_weight)
+            print("LDA key: ", key_weight_list[k].key, " value: ", key_weight_list[k].weight)
 
         topic = Topic(i, key_list, weight_list)
         i = i+1
         topics.append(topic)
 
+    if not topics:
+        return None, None, "No LDA topics generated."
 
     #sorted([(value, key) for (key, value) in list_dict_topics[0].items()])[::-1][10:30]
 
@@ -308,5 +322,4 @@ def get_topics(csv_rows, num_topics):
     # Commonly appearing words in topic 2
     #sorted([(value, key) for (key, value) in list_dict_topics[1].items()])[::-1][10:30]
 
-
-    return topic_per_sentence, topics
+    return topic_per_sentence, topics, None

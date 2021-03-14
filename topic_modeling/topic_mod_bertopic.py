@@ -32,7 +32,16 @@ def get_topics(csv_rows):
     topic_model = BERTopic(embedding_model=embedding_model,
                            vectorizer_model=vectorizer_model)
     topic_model.umap_model.random_state = 42
-    topics, _ = topic_model.fit_transform(csv_rows)
+    topics = None
+    try:
+        topics, _ = topic_model.fit_transform(csv_rows)
+    except ValueError:  #raised if `y` is empty.
+        print("Warning: topics has size 0, probably not enough data.")
+        pass
+
+    if not topics:
+        # Topics could not be generated
+        return None, None, "Could not generate topics."
 
     i = 0
     topic_per_sentence = []
@@ -43,25 +52,25 @@ def get_topics(csv_rows):
         if t not in topics_no_duplicates:
             topics_no_duplicates.append(t)
 
-    topics = []
+    topics_list = []
     for n in topics_no_duplicates:
         print("Topic ", n)
         words_list = []
         weights_list = []
         words = topic_model.get_topic(n)
         for word in words:
-            print("Word: " + word[0])
             words_list.append(word[0])
             weights_list.append(str(word[1]))
+            print("Word: " + word[0] + ", " + str(word[1]))
 
         topic = Topic(n, words_list, weights_list)
-        topics.append(topic)
+        topics_list.append(topic)
 
     # Show most frequent topics
     print("Most frequent")
     print(topic_model.get_topic_freq().head())
 
-    return topic_per_sentence, topics
+    return topic_per_sentence, topics_list, None
 
 
 
