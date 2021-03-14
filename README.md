@@ -283,4 +283,4 @@ The following shows partial results without surrounding double quotes or quoted 
 }
 ```
 
-Here, note that `output` contains `result`, `bert_topics`, and `lda_topics` keys. The `result` key contains a list of JSON objects for each document that includes the document text, its sentiment values, and its derive topic numbers. The `bert_topics` key contains the list of significant keywords or phrases.
+Here, note that `output` contains `result`, `bert_topics`, and `lda_topics` keys. The `result` key contains a list of JSON objects for each document that includes the document text, its sentiment values, and its derive topic numbers. The `bert_topics` key contains the list of significant keywords or phrases derived using BERTopic while `lda_topics` contains the list of significant keywords or phrases derived using LDA.
