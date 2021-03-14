@@ -251,9 +251,9 @@ The following shows partial results without surrounding double quotes or quoted 
                                 ],
                             "weights": 
                                 [
-                                    0.015873207055777317,
-                                    0.015873207055777317,
-                                    0.015873207055777317,
+                                    "0.015873207055777317",
+                                    "0.015873207055777317",
+                                    "0.015873207055777317",
                                     ...
                                 ]
                         },
@@ -268,9 +268,9 @@ The following shows partial results without surrounding double quotes or quoted 
                                 ],
                             "weights": 
                                 [
-                                    0.020000736711478756,
-                                    0.020000736711478756,
-                                    0.015000546251962761,
+                                    "0.020000736711478756",
+                                    "0.020000736711478756",
+                                    "0.015000546251962761",
                                     ...
                                 ]
                         },
