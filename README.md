@@ -4,7 +4,6 @@ Version: 0.1a
 
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) 
 
-
 SenTopic combines sentiment analysis and topic modeling into a single capability allowing for sentiment to be derived per generated topic and for topics to be derived per generated sentiment. This version of SenTopic is implemented as an asynchronous Azure Durable Function service and includes required Azure modules for endpoint, orchestrator, and activity.
 
 ## Sentiment Analysis
@@ -48,21 +47,21 @@ The following query parameters will be supported.
 
 | Key | Value | Required | Available | Description |
 | :--- | :----: | :----: | :----: | :--- |
-| `lda_num` | int | No | Soon | Set number of LDA topics.|
-| `lda_lemma` | boolean | No | Soon | Set use of LDA lemmatizer.|
-| `lda_alpha` | float | No | Soon | Set LDA document-topic density.|
-| `lda_v` | int | No | Soon | Set vocabulary size.|
-| `bert_embed` | string | No | Soon | Set transformer embedding (e.g., 'roberta-large').|
-| `bert_min_cluster` | int | No | Soon | Set HDBSCAN min cluster.|
-| `bert_hdbscan_metric` | string | No | Soon | Specify HDBSCAN metric (e.g., 'euclidean').
-| `bert_cluster_select` | int | No | Soon | Specify HDBSCAN cluster selection.|
-| `bert_predict` | boolean | No | Soon | Set HDBSCAN prediction.|
-| `bert_neighbor` | int | No | Soon | Set UMAP n-neighbors.|
-| `bert_component` | int | No | Soon | Set UMAP n-components.|
-| `bert_min_dist` | int | No | Soon | Set UMAP min distance.|
-| `bert_umap_metric` | string | No | Soon | Set UMAP metric (e.g., 'cosine').|
-| `bert_metric` | int | No | Soon | Set UMAP metric.|
-| `bert_ngram` | int | No | Soon | Set vectorizer n-gram range.|
+| `lda_num` | `int` | No | Soon | Set number of LDA topics.|
+| `lda_lemma` | `boolean` | No | Soon | Set use of LDA lemmatizer.|
+| `lda_alpha` | `float` | No | Soon | Set LDA document-topic density.|
+| `lda_v` | `int` | No | Soon | Set vocabulary size.|
+| `bert_embed` | `string` | No | Soon | Set transformer embedding (e.g., '`roberta-large`').|
+| `bert_min_cluster` | `int` | No | Soon | Set HDBSCAN min cluster.|
+| `bert_hdbscan_metric` | `string` | No | Soon | Specify HDBSCAN metric (e.g., '`euclidean`').
+| `bert_cluster_select` | `int` | No | Soon | Specify HDBSCAN cluster selection.|
+| `bert_predict` | `boolean` | No | Soon | Set HDBSCAN prediction.|
+| `bert_neighbor` | `int` | No | Soon | Set UMAP n-neighbors.|
+| `bert_component` | `int` | No | Soon | Set UMAP n-components.|
+| `bert_min_dist` | `int` | No | Soon | Set UMAP min distance.|
+| `bert_umap_metric` | `string` | No | Soon | Set UMAP metric (e.g., '`cosine`').|
+| `bert_metric` | `int` | No | Soon | Set UMAP metric.|
+| `bert_ngram` | `int` | No | Soon | Set vectorizer n-gram range.|
 
 
 ## Headers
@@ -128,10 +127,10 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 
 | Service | Description |
 | :--- | :--- | 
-| statusQueryGetUri | Gets the HTTP GET status query endpoint URL. If completed, return result.|
-| sendEventPostUri | Gets the HTTP POST external event sending endpoint URL.|
-| terminatePostUri | Gets the HTTP POST instance termination endpoint.|
-| purgeHistoryDeleteUri | Gets the HTTP DELETE purge instance history by instance ID endpoint.|
+| `statusQueryGetUri` | Gets the HTTP GET status query endpoint URL. If completed, return result.|
+| `sendEventPostUri` | Gets the HTTP POST external event sending endpoint URL.|
+| `terminatePostUri` | Gets the HTTP POST instance termination endpoint.|
+| `purgeHistoryDeleteUri` | Gets the HTTP DELETE purge instance history by instance ID endpoint.|
 
 Azure returns this set of endpoints as a JSON object.
 
@@ -158,7 +157,7 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 ## Results
 SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string and adds escaped double quotes around keys and values.</i>. 
 
-The following shows partial results without surrounding double quotes or quoted keys and values.
+The following shows partial JSON results (without surrounding double quotes or quoted keys and values). Ellipses denote omitted data.
 
 ```json
 {
@@ -283,4 +282,6 @@ The following shows partial results without surrounding double quotes or quoted 
 }
 ```
 
-Here, note that `output` contains `result`, `bert_topics`, and `lda_topics` keys. The `result` key contains a list of JSON objects for each document that includes the document text, its sentiment values, and its derive topic numbers. The `bert_topics` key contains the list of significant keywords or phrases derived using BERTopic while `lda_topics` contains the list of significant keywords or phrases derived using LDA.
+Note that `output` contains `result`, `bert_topics`, and `lda_topics` arrays. The `result`  array contains the list of corpus documents and their associated sentiment and topic values. The `bert_topics` array contains the list of significant keywords or phrases derived from  BERTopic while `lda_topics` contains the list of significant keywords or phrases derived from  LDA.
+
+
