@@ -48,21 +48,21 @@ The following query parameters will be supported.
 
 | Key | Value | Required | Available | Description |
 | :--- | :----: | :----: | :----: | :--- |
-| `lda_num` | int | No | Coming Soon | Set number of LDA topics.|
-| `lda_lemma` | boolean | No | Coming Soon | Set use of LDA lemmatizer.|
-| `lda_alpha` | float | No | Coming Soon | Set LDA document-topic density.|
-| `lda_v` | int | No | Coming Soon | Set vocabulary size.|
-| `bert_embed` | string | No | Coming Soon | Set transformer embedding (e.g., 'roberta-large').|
-| `bert_min_cluster` | int | No | Coming Soon | Set HDBSCAN min cluster.|
-| `bert_hdbscan_metric` | string | No | Coming Soon | Specify HDBSCAN metric (e.g., 'euclidean').
-| `bert_cluster_select` | int | No | Coming Soon | Specify HDBSCAN cluster selection.|
-| `bert_predict` | boolean | No | Coming Soon | Set HDBSCAN prediction.|
-| `bert_neighbor` | int | No | Coming Soon | Set UMAP n-neighbors.|
-| `bert_component` | int | No | Coming Soon | Set UMAP n-components.|
-| `bert_min_dist` | int | No | Coming Soon | Set UMAP min distance.|
-| `bert_umap_metric` | string | No | Coming Soon | Set UMAP metric (e.g., 'cosine').|
-| `bert_metric` | int | No | Coming Soon | Set UMAP metric.|
-| `bert_ngram` | int | No | Coming Soon | Set vectorizer n-gram range.|
+| `lda_num` | int | No | Soon | Set number of LDA topics.|
+| `lda_lemma` | boolean | No | Soon | Set use of LDA lemmatizer.|
+| `lda_alpha` | float | No | Soon | Set LDA document-topic density.|
+| `lda_v` | int | No | Soon | Set vocabulary size.|
+| `bert_embed` | string | No | Soon | Set transformer embedding (e.g., 'roberta-large').|
+| `bert_min_cluster` | int | No | Soon | Set HDBSCAN min cluster.|
+| `bert_hdbscan_metric` | string | No | Soon | Specify HDBSCAN metric (e.g., 'euclidean').
+| `bert_cluster_select` | int | No | Soon | Specify HDBSCAN cluster selection.|
+| `bert_predict` | boolean | No | Soon | Set HDBSCAN prediction.|
+| `bert_neighbor` | int | No | Soon | Set UMAP n-neighbors.|
+| `bert_component` | int | No | Soon | Set UMAP n-components.|
+| `bert_min_dist` | int | No | Soon | Set UMAP min distance.|
+| `bert_umap_metric` | string | No | Soon | Set UMAP metric (e.g., 'cosine').|
+| `bert_metric` | int | No | Soon | Set UMAP metric.|
+| `bert_ngram` | int | No | Soon | Set vectorizer n-gram range.|
 
 
 ## Headers
