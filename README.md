@@ -1,4 +1,4 @@
-# SenTopic
+# SenTopic for Azure
 
 Version: 0.1a
 
@@ -27,11 +27,12 @@ SenTopic provides two types of topic modeling: [Latent Dirichlet Allocation (LDA
 
 SenTopic combines sentiment analysis and topic modeling by performing both at the document (i.e., paragraph) level for a corpus, the results of which can then be represented by a table as shown below.
 
+
 | Document | BERT Topic | LDA Topic | 3-Class Sentiment | 5-Class Sentiment |
 | :--- | :----: | :----: | :----: | :----: |
-| This is a double-edged sword. The limits for this technically nuanced aspect of the program were problematic maybe unrealistic. | -1	| 3	| negative | 2_stars |
-| It wasnt overly burdensome on Phase I as long as it gave the government what they needed to make a response. | 2	| 1	| neutral |	3_stars |
-| It introduced efficiencies on the offerors side and the governments side. Time and resources were saved by both during the initial phase. | 2	| 1	| positive | 5_stars |
+| "Having to report to work without being provided PPE." | 3 | 0 | negative | 1_star |
+| "Teleworking at home." | 3 | 2 | neutral | 3_stars |
+| "Things are good. Im ready to do the mission." | 3 | 1 | positive | 4_stars |
 
 
 # API (v1)
@@ -56,21 +57,34 @@ URL:  `https://<domain>/sentopic`
 
 ## Body / Payload
 ### JSON
-JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value.
+JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic'
     --header 'Content-Type: application/json'
     --data-raw '{
-        "documents": [
-            {
-                "text": "This is a test of the SenTopic Azure Durable Function. It is great."
-            },
-            {
-                "text": "This is another test of the SenTopic Azure Durable Function."
-            }
-        ]
-    }'
+        "documents": 
+            [
+                {
+                    "text": "Having to report to work without being provided PPE."
+                }
+                ,
+                {
+                    "text": "Teleworking at home."
+                }
+                ,
+                {
+                    "text": "Things are good. Im ready to do the mission."
+                }
+
+                ...
+            ],
+        "stopwords":
+            [
+                "the", "list", "of", "stop", "words", "go", "here"
+            ]
+    }   '
+
 ```
 
 ### Multipart Form Data 
@@ -78,25 +92,26 @@ SenTopic supports one or more file attachments. The supported file types include
 
 | Type | Available | Description |
 | :--- | :---: | :--- |
-| .txt | Yes | Text file with one document per line.|
-| .json | Yes | Requires `documents` key containing list of `text` value pairs.|
-| .csv | Yes | Requires one column of data, no headers, with one document per row.|
-| .xlsx | No | Coming soon.|
-| .docx | No | Coming soon.|
-| .pptx | No | Coming soon.|
+| `.txt` | Yes | Text file with one document per line. For stop words list, one stop word per line.|
+| `.json` | Yes | Requires `documents` key containing list of `text` value pairs.|
+| `.csv` | Yes | Requires one column of data, no headers, with one document per row.|
+| `.xlsx` | No | Coming soon.|
+| `.docx` | No | Coming soon.|
+| `.pptx` | No | Coming soon.|
 
 
-Note that each file attachment may use the same `file` keyword.
+Note that each file attachment may use the same `file` keyword. Optionally, a stop words list may be added using the file name `stopwords.txt`. 
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic' 
     --header 'Content-Type: multipart/form-data' 
     --form 'file=@"data_file.json"' 
     --form 'file=@"data_file.csv"' 
+    --form 'file=@"stopwords.txt"' 
 ```
 
 ## Response
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a JSON list of service endpoints that may be accessed to invoke further actions on the service. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a  set of service endpoints that may be accessed to invoke further actions on the service. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
 
 | Service | Description |
 | :--- | :--- | 
@@ -104,6 +119,8 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 | sendEventPostUri | Gets the HTTP POST external event sending endpoint URL.|
 | terminatePostUri | Gets the HTTP POST instance termination endpoint.|
 | purgeHistoryDeleteUri | Gets the HTTP DELETE purge instance history by instance ID endpoint.|
+
+Azure returns this set of endpoints as a JSON object.
 
 ```json
 {
@@ -121,48 +138,108 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 
 | HTTP Code | Payload | Description |
 | :--- | :----: | :--- |
-| `202` | Multiple Links | Submission successfully accepted. Multiple URL links are returned to allow for checking the status of processing as well as retrieving results.|
+| `202` | Azure Endpoints | Submission successfully accepted. Multiple Azure endpoint URLs are returned to allow for checking the status of processing as well as retrieving results.|
 | `400` | Error Message | Invalid input.|
 | `500` | None | System internal error.|
 
 ## Results
-SenTopic results are available from the return `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string. In addition, Azure Durable Functions adds escaped double quotes around keys and values in the JSON output</i>. The following shows the JSON output without surrounding double quotes and escaped double quotes.
+SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string. In addition, Azure Durable Functions adds escaped double quotes around keys and values in the JSON output</i>. 
+
+The following shows the JSON output without surrounding double quotes and escaped double quotes.
 
 ```json
 {
-    "name":"sentopic",
-    "instanceId":"6ac3135add3e4ab88add88e0ba6c05bc",
-    "runtimeStatus":"Completed",
-    "input":"[\"This is the first document. \", \"This is another document. It is a fine document. \"]",
-    "customStatus":"NOTE: Asynchronous Azure Durable Functions add quotes around JSON output and also escape double quotes for JSON keys.",
-    "output":["
-        {\"paras\": 
-            [{\"text\": \"This is the first document.\", 
-            \"bertopic\": -1, 
-            \"lda\": 3, 
-            \"class3\": \"negative\", 
-            \"star5\": \"4_stars\"}, 
-        
-            {\"text\": \"This is another document. It is a fine document.\",       
-            \"bertopic\": 0, 
-            \"lda\": 2, 
-            \"class3\": \"positive\", 
-            \"star5\": \"5_stars\"}, 
-
+    "name": "sentopic",
+    "instanceId": "34521eb8bca84a568e60c33a92a10e6f",
+    "runtimeStatus": "Completed",
+    "input": 
+        [
+            "Having to report to work without being provided PPE."
+            , 
+            "Teleworking at home."
+            , 
+            "Things are good. Im ready to do the mission."
+            ,
             ...
-
-            "],"createdTime":"2021-03-13T13:27:32Z","lastUpdatedTime":"2021-03-13T13:28:07Z"}
+        ]
+        ,
+    "output": [
+        {
+            "result": 
+                [
+                    {
+                        "text": "Having to report to work without being provided PPE.", 
+                        "bertopic": 3, 
+                        "lda": 0, 
+                        "class3": "negative", 
+                        "star5": "1_star"
+                    }
+                    , 
+                    {
+                        "text": "Teleworking at home.", 
+                        "bertopic": 3, 
+                        "lda": 2, 
+                        "class3": "neutral",
+                        "star5": "3_stars"
+                    }
+                    , 
+                    {
+                        "text": "Things are good. Im ready to do the mission.", 
+                        "bertopic": 3, 
+                        "lda": 1, 
+                        "class3": "positive",
+                        "star5": "4_stars"
+                    }
+                    ,
+                    ...
+                ]
+                ,
+            "bert_topics": 
+                [
+                    [
+                        {
+                            "word": "office", 
+                            "weight": "0.02923134401914028"
+                        }
+                        ,
+                        {
+                            "word": "worried", 
+                            "weight": "0.024890853269684016"
+                        }
+                        , 
+                        {
+                            "word": "pandemic", 
+                            "weight": "0.017575496779442725"
+                        }
+                        ,
+                        ...
+                    ]
+                ]
+                , 
+            "lda_topics": 
+                [
+                    [
+                        {
+                            "word": "worried", 
+                            "weight": "0.03428619358724741"
+                        }
+                        ,
+                        {
+                            "word": "unnecessary", 
+                            "weight": "0.017143082435909174"
+                        }
+                        , 
+                        {
+                            "word": "medical", 
+                            "weight": "0.017143082435909174"
+                        }
+                        ,
+                        ...
+                    ]
+                ]
+                , 
+        }
     ],
-    "createdTime": "2021-03-13T12:59:48Z",
-    "lastUpdatedTime": "2021-03-13T13:00:21Z"
+    "createdTime": "2021-03-14T06:34:10Z",
+    "lastUpdatedTime": "2021-03-14T06:34:43Z"
 }
-```
-
-Note that `bert_topics` and `lda_topics` may be empty if insufficient data was provided to derive topics.
-
-## BERTopic Example
-
-
-## LDA Example
-
-
