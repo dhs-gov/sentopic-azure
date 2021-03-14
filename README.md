@@ -83,16 +83,13 @@ curl --location --request POST 'https://<domain>/sentopic'
             [
                 {
                     "text": "Having to report to work without being provided PPE."
-                }
-                ,
+                },
                 {
                     "text": "Teleworking at home."
-                }
-                ,
+                },
                 {
                     "text": "Things are good. Im ready to do the mission."
                 }
-
                 ...
             ],
         "stopwords":
@@ -170,15 +167,11 @@ The following shows partial results without surrounding double quotes or quoted 
     "runtimeStatus": "Completed",
     "input": 
         [
-            "Having to report to work without being provided PPE."
-            , 
-            "Teleworking at home."
-            , 
-            "Things are good. Im ready to do the mission."
-            ,
+            "Having to report to work without being provided PPE.", 
+            "Teleworking at home.", 
+            "Things are good. Im ready to do the mission.",
             ...
-        ]
-        ,
+        ],
     "output": 
         [
             {
@@ -190,27 +183,23 @@ The following shows partial results without surrounding double quotes or quoted 
                             "lda": 0, 
                             "class3": "negative", 
                             "star5": "1_star"
-                        }
-                        , 
+                        }, 
                         {
                             "text": "Teleworking at home.", 
                             "bertopic": 3, 
                             "lda": 2, 
                             "class3": "neutral",
                             "star5": "3_stars"
-                        }
-                        , 
+                        }, 
                         {
                             "text": "Things are good. Im ready to do the mission.", 
                             "bertopic": 3, 
                             "lda": 1, 
                             "class3": "positive",
                             "star5": "4_stars"
-                        }
-                        ,
+                        },
                         ...
-                    ]
-                ,
+                    ],
                 "bert_topics": 
                     [
                         {
@@ -221,8 +210,7 @@ The following shows partial results without surrounding double quotes or quoted 
                                     "worried",
                                     "pandemic",
                                     ...
-                                ]
-                                ,
+                                ],
                             "weights": 
                                 [
                                     "0.02923134401914028",
@@ -239,8 +227,7 @@ The following shows partial results without surrounding double quotes or quoted 
                                     "sick",
                                     "basic",
                                     ...
-                                ]
-                                ,
+                                ],
                             "weights": 
                                 [
                                     "0.031044011584768025",
@@ -248,8 +235,7 @@ The following shows partial results without surrounding double quotes or quoted 
                                     "0.018350063606810418",
                                     ...
                                 ]
-                        }
-                        ,
+                        },
                         ...
                     ]
                 "lda_topics": 
@@ -262,8 +248,7 @@ The following shows partial results without surrounding double quotes or quoted 
                                     "contact",
                                     "family",
                                     ...
-                                ]
-                            ,
+                                ],
                             "weights": 
                                 [
                                     0.015873207055777317,
@@ -271,8 +256,7 @@ The following shows partial results without surrounding double quotes or quoted 
                                     0.015873207055777317,
                                     ...
                                 ]
-                        }
-                        ,
+                        },
                         {
                             "topic_num": 2,
                             "words": 
@@ -281,8 +265,7 @@ The following shows partial results without surrounding double quotes or quoted 
                                     "ppe",
                                     "worried",              
                                     ...
-                                ]
-                            ,
+                                ],
                             "weights": 
                                 [
                                     0.020000736711478756,
@@ -290,11 +273,9 @@ The following shows partial results without surrounding double quotes or quoted 
                                     0.015000546251962761,
                                     ...
                                 ]
-                        }
-                        ,
+                        },
                         ...
-                    ]
-                , 
+                    ], 
             }
         ],
     "createdTime": "2021-03-14T06:34:10Z",
