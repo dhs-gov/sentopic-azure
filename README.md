@@ -48,22 +48,21 @@ The following query parameters will be supported.
 
 | Key | Value | Required | Available | Description |
 | :--- | :----: | :----: | :----: | :--- |
-| lda_num | int | No | Coming Soon | Set number of LDA topics.|
-| lda_lemma | boolean | No | Coming Soon | Set use of LDA lemmatizer.|
-| lda_alpha | float | No | Coming Soon | Set LDA document-topic density.|
-| lda_v | int | No | Coming Soon | Set vocabulary size.|
-| bert_embed | string | No | Coming Soon | Set transformer embedding (e.g., 'roberta-large').|
-| bert_min_cluster | int | No | Coming Soon | Set HDBSCAN min cluster.|
-| bert_hdbscan_metric | string | No | Coming Soon | Specify HDBSCAN metric (e.g., 'euclidean').
-| bert_cluster_select | int | No | Coming Soon | Specify HDBSCAN cluster selection.|
-| bert_predict | boolean | No | Coming Soon | Set HDBSCAN prediction.|
-| bert_neighbor | int | No | Coming Soon | Set UMAP n-neighbors.|
-| bert_component | int | No | Coming Soon | Set UMAP n-components.|
-| bert_min_dist | int | No | Coming Soon | Set UMAP min distance.|
-| bert_umap_metric | string | No | Coming Soon | Set UMAP metric (e.g., 'cosine').|
-| bert_metric | int | No | Coming Soon | Set UMAP metric.|
-| bert_ngram | int | No | Coming Soon | Set vectorizer n-gram range.|
-
+| `lda_num` | int | No | Coming Soon | Set number of LDA topics.|
+| `lda_lemma` | boolean | No | Coming Soon | Set use of LDA lemmatizer.|
+| `lda_alpha` | float | No | Coming Soon | Set LDA document-topic density.|
+| `lda_v` | int | No | Coming Soon | Set vocabulary size.|
+| `bert_embed` | string | No | Coming Soon | Set transformer embedding (e.g., 'roberta-large').|
+| `bert_min_cluster` | int | No | Coming Soon | Set HDBSCAN min cluster.|
+| `bert_hdbscan_metric` | string | No | Coming Soon | Specify HDBSCAN metric (e.g., 'euclidean').
+| `bert_cluster_select` | int | No | Coming Soon | Specify HDBSCAN cluster selection.|
+| `bert_predict` | boolean | No | Coming Soon | Set HDBSCAN prediction.|
+| `bert_neighbor` | int | No | Coming Soon | Set UMAP n-neighbors.|
+| `bert_component` | int | No | Coming Soon | Set UMAP n-components.|
+| `bert_min_dist` | int | No | Coming Soon | Set UMAP min distance.|
+| `bert_umap_metric` | string | No | Coming Soon | Set UMAP metric (e.g., 'cosine').|
+| `bert_metric` | int | No | Coming Soon | Set UMAP metric.|
+| `bert_ngram` | int | No | Coming Soon | Set vectorizer n-gram range.|
 
 
 ## Headers
@@ -301,5 +300,6 @@ The following shows partial results without surrounding double quotes or quoted 
     "createdTime": "2021-03-14T06:34:10Z",
     "lastUpdatedTime": "2021-03-14T06:34:43Z"
 }
+```
 
-Here, note that `output` contains `result`, `bert_topics`, and `lda_topics` keys. The `result` key contains a list of JSON objects for each document that includes the document text, its sentiment values, and its derive topic numbers. The `bert_topics` key contains the list of significant keywords or phrases 
+Here, note that `output` contains `result`, `bert_topics`, and `lda_topics` keys. The `result` key contains a list of JSON objects for each document that includes the document text, its sentiment values, and its derive topic numbers. The `bert_topics` key contains the list of significant keywords or phrases.
