@@ -84,33 +84,8 @@ def main(name: object) -> json:
                 star5_sentiment_rows[i].sentiment
             )
             results.append(paragraph)
-    
-    # Create BERT topics data
-    bert_topics_list = []
-    words_list = []
-    print("LDA size: ", )
-    for i in range(len(bert_topics)):
-        topic = Topic(bert_topics[i].topic_num, None)
-        for j in range(len(bert_topics[i].words)):
-            word = Word(bert_topics[i].words[j], bert_topics[i].weights[j])
-            words_list.append(word)
-        topic.word_weight = words_list
-        bert_topics_list.append(topic.word_weight)
 
-    # Create LDA topics data
-    lda_topics_list = []
-    words_list = []
-    print("LDA size: ", )
-    for i in range(len(lda_topics)):
-        topic = Topic(lda_topics[i].topic_num, None)
-        for j in range(len(lda_topics[i].words)):
-            word = Word(lda_topics[i].words[j], lda_topics[i].weights[j])
-            words_list.append(word)
-        topic.word_weight = words_list
-        lda_topics_list.append(topic.word_weight)
-
-
-    r = Result(results, bert_topics_list, lda_topics_list)
+    r = Result(results, bert_topics, lda_topics)
 
     json_out = jsonpickle.encode(r, unpicklable=False)
     #print("JSON STR OUT: ", json_out)
