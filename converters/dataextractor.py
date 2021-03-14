@@ -19,6 +19,8 @@ def get_data(req):
     #except:
     #    print("Warning: Files payload not found")
 
+    print("Did not find JSON body")
+    
     files_found = False
     for input_file in req.files.values():
         files_found = True

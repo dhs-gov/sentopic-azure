@@ -12,10 +12,11 @@ import jsonpickle
 
 
 class Result:
-    def __init__(self, paras, berts, ldas):
-        self.paras = paras
-        self.berts = berts
-        self.ldas = ldas
+    def __init__(self, result, bert_topics, lda_topics):
+        self.result = result
+        self.bert_topics = bert_topics
+        self.lda_topics = lda_topics
+
 
 class Paragraph:
     def __init__(self, text, bertopic, lda, class3, star5):
@@ -33,14 +34,10 @@ class Topic:
         self.weight = weight
 
 
-
-
-
 # Here, 'name' is the incoming data_in payload.
 def main(name: object) -> json:
 
     data_list = name
-    print("sent list: ", data_list)
 
     # Get sentiment for each row
     classifier = EasySequenceClassifier()
@@ -59,18 +56,11 @@ def main(name: object) -> json:
     print("BERT Topic Distribution: ", Counter(bert_sentence_topics))
     print("LDA Topic Distribution: ", Counter(lda_sentences_topics))
 
-    
     # Create results data
-    result = []
+    results = []
     fields = ['Text', 'BERT Topic', 'LDA Topic', '3-Class Sentiment', '5-Star Sentiment']
     for i in range(len(data_list)):
         if (data_list[i]):
-            #row_data.append(data_list[i])
-            #row_data.append(bert_sentence_topics[i])
-            #row_data.append(lda_sentences_topics[i])
-            #row_data.append(class3_sentiment_rows[i].sentiment)
-            #row_data.append(star5_sentiment_rows[i].sentiment)
-
             paragraph = Paragraph(
                 data_list[i],
                 bert_sentence_topics[i],
@@ -78,7 +68,7 @@ def main(name: object) -> json:
                 class3_sentiment_rows[i].sentiment,
                 star5_sentiment_rows[i].sentiment
             )
-            result.append(paragraph)
+            results.append(paragraph)
     
     # Create BERT topics data
     bert_topics = []
@@ -86,9 +76,6 @@ def main(name: object) -> json:
     fields = ['BERT Topic', 'Word', 'Weight']
     for i in range(len(bert_topics)):
         for j in range(len(bert_topics[i].words)):
-            #row_data.append(bert_topics[i].topic_num)
-            #row_data.append(bert_topics[i].words[j])
-            #row_data.append(bert_topics[i].weights[j])
             topic = Topic(
                 bert_topics[i].topic_num,
                 bert_topics[i].words[j],
@@ -110,14 +97,7 @@ def main(name: object) -> json:
     fields = ['LDA Topic', 'Word', 'Weight']
     print("LDA size: ", )
     for i in range(len(lda_topics)):
-        print("LDA i: ", i)
         for j in range(len(lda_topics[i].words)):
-            #print("LDA j: ", j)
-            #row_data = []
-            #row_data.append(lda_topics[i].topic_num)
-            #row_data.append(lda_topics[i].words[j])
-            #row_data.append(lda_topics[i].weights[j])
-
             topic = Topic(
                 lda_topics[i].topic_num,
                 lda_topics[i].words[j],
@@ -132,8 +112,10 @@ def main(name: object) -> json:
     #    csvwriter.writerow(fields)
     #    csvwriter.writerows(rows)
 
-   
-    r = Result(result, bert_topics, lda_topics)
+    print("berts len: ", len(bert_topics))
+    print("lda len: ", len(lda_topics))
+
+    r = Result(results, bert_topics, lda_topics)
 
     json_out = jsonpickle.encode(r, unpicklable=False)
     #print("JSON STR OUT: ", json_out)

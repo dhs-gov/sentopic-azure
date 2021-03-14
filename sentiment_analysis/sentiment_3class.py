@@ -21,12 +21,12 @@ def calc_sentiment(confidence_score):
     largest_score = 0.0
 
     for label in confidence_score.labels:
-        print("cf: ", label)
+        #print("cf: ", label)
         if label.score > largest_score:
             largest_label = str(label)
             largest_score = label.score
 
-    print("largest_label: ", largest_label)
+    #print("largest_label: ", largest_label)
     if "LABEL_0" in largest_label:
         return "negative"
     elif "LABEL_1" in largest_label:

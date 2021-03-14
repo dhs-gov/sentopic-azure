@@ -51,23 +51,22 @@ URL:  `https://<domain>/sentopic`
 ## Headers
 
 | Key | Value | Required | Description |
-| :--- | :----: | :----: | :--- |
+| :--- | :--- | :----: | :--- |
 | `Content-Type` | `application/json`<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or multi-part form payload. If both JSON and multi-part form payloads are submitted, the JSON payload must be attached as a file (See Multipart Form Data). |
 
 ## Body / Payload
-### JSON Only
+### JSON
+JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value.
 
 ```bash
-curl --location --request POST 'https://<domain>/sentopic' \
-    --header 'Content-Type: application/json' \
+curl --location --request POST 'https://<domain>/sentopic'
+    --header 'Content-Type: application/json'
     --data-raw '{
         "documents": [
             {
-                "id": "1",
-                "text": "This is a test of the SenTopic Azure Durable Function. It'\''s great."
+                "text": "This is a test of the SenTopic Azure Durable Function. It is great."
             },
             {
-                "id": "2",
                 "text": "This is another test of the SenTopic Azure Durable Function."
             }
         ]
@@ -75,26 +74,36 @@ curl --location --request POST 'https://<domain>/sentopic' \
 ```
 
 ### Multipart Form Data 
+SenTopic supports one or more file attachments. The supported file types include:
+
+| Type | Available | Description |
+| :--- | :---: | :--- |
+| .txt | Yes | Text file with one document per line.|
+| .json | Yes | Requires `documents` key containing list of `text` value pairs.|
+| .csv | Yes | Requires one column of data, no headers, with one document per row.|
+| .xlsx | No | Coming soon.|
+| .docx | No | Coming soon.|
+| .pptx | No | Coming soon.|
+
+
+Note that each file attachment may use the same `file` keyword.
 
 ```bash
-curl --location --request POST 'https://<domain>/sentopic' \
-    --header 'Content-Type: multipart/form-data' \
-    --form 'id="1"' \
-    --form 'file=@"data_file.json"' \
-    --form 'file=@"data_file.csv"' \
+curl --location --request POST 'https://<domain>/sentopic' 
+    --header 'Content-Type: multipart/form-data' 
+    --form 'file=@"data_file.json"' 
+    --form 'file=@"data_file.csv"' 
 ```
 
+## Response
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a JSON list of service endpoints that may be accessed to invoke further actions on the service. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
 
-## Response Codes
-
-| HTTP Code | Payload | Description |
-| :--- | :----: | :--- |
-| `200` | None | Request successful.|
-| `202` | Multiple Links | Submission successfully accepted. Multiple URL links are returned to allow for checking the status of processing as well as retrieving results.|
-| `400` | Error Message | Invalid input.|
-| `500` | None | System internal error.|
-
-## HTTP 202 Response Example
+| Service | Description |
+| :--- | :--- | 
+| statusQueryGetUri | Gets the HTTP GET status query endpoint URL. If completed, return result.|
+| sendEventPostUri | Gets the HTTP POST external event sending endpoint URL.|
+| terminatePostUri | Gets the HTTP POST instance termination endpoint.|
+| purgeHistoryDeleteUri | Gets the HTTP DELETE purge instance history by instance ID endpoint.|
 
 ```json
 {
@@ -107,14 +116,17 @@ curl --location --request POST 'https://<domain>/sentopic' \
 }
 ```
 
-## Results Example
-When processing is completed, selecting the XXX link will show the results in JSON. 
-NOTE: Azure Durable Functions return all JSON results surround by double quotes. The 
-consumer of this data will be required to remove these surrounding double quotes 
-before consuming this data for processing. In addition, Azure Durable Functions also adds escaped double quotes around keys in the 
-JSON output, as well as all values. The consumer of this data will be required to 
-remove all escape characters ('\') in the output before consuming this data for 
-processing.
+## Response Codes
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will normally result in an `HTTP 202 Accepted` after it has received all data. 
+
+| HTTP Code | Payload | Description |
+| :--- | :----: | :--- |
+| `202` | Multiple Links | Submission successfully accepted. Multiple URL links are returned to allow for checking the status of processing as well as retrieving results.|
+| `400` | Error Message | Invalid input.|
+| `500` | None | System internal error.|
+
+## Results
+SenTopic results are available from the return `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string. In addition, Azure Durable Functions adds escaped double quotes around keys and values in the JSON output</i>. The following shows the JSON output without surrounding double quotes and escaped double quotes.
 
 ```json
 {
@@ -145,6 +157,8 @@ processing.
     "lastUpdatedTime": "2021-03-13T13:00:21Z"
 }
 ```
+
+Note that `bert_topics` and `lda_topics` may be empty if insufficient data was provided to derive topics.
 
 ## BERTopic Example
 
