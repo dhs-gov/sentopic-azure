@@ -29,8 +29,8 @@ SenTopic combines sentiment analysis and topic modeling by performing both at th
 | :--- | :----: | :----: | :----: | :----: |
 | "Having to report to work without being provided PPE." | 3 | 0 | negative | 1_star |
 | "Teleworking at home." | 3 | 2 | neutral | 3_stars |
-| "Things are good. Im ready to do the mission." | 3 | 1 | positive | 4_stars |
-
+| "Things are good. Im ready to do the mission." | 3 | 1 | positive | 4_stars |  
+  
 
 # API (v1)
 
@@ -146,8 +146,8 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 | Code | Payload | Description |
 | :--- | :----: | :--- |
 | `202` | Azure Endpoints | Submission successfully accepted. Multiple Azure endpoint URLs are returned to further actions, such as retrieving results.|
-| `400` | Error Message | Invalid input.|
-| `500` | None | System internal error.|
+| `400` | Error Message | Bad Request.|
+| `500` | None | Internal Server Error.|
 
 ## Results
 SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results (1) as a double-quoted string and (2) that contain escaped double quotes around keys and values.</i>. 
