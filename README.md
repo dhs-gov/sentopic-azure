@@ -151,9 +151,9 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 | `500` | None | System internal error.|
 
 ## Results
-SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results as a double-quoted string and adds escaped double quotes around keys and values.</i>. 
+SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results (1) as a double-quoted string and (2) that contain escaped double quotes around keys and values.</i>. 
 
-The following shows partial JSON results (without surrounding double quotes or quoted keys and values). Ellipses denote omitted data.
+The following shows partial JSON results (excluding surrounding double quotes and quoted keys/values). Ellipses denote omitted data.
 
 ```json
 {
