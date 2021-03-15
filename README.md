@@ -60,7 +60,6 @@ The following query parameters will be supported.
 | `bert_component` | `int` | No | Soon | Set UMAP n-components.|
 | `bert_min_dist` | `int` | No | Soon | Set UMAP min distance.|
 | `bert_umap_metric` | `string` | No | Soon | Set UMAP metric (e.g., '`cosine`').|
-| `bert_metric` | `int` | No | Soon | Set UMAP metric.|
 | `bert_ngram` | `int` | No | Soon | Set vectorizer n-gram range.|
 
 
