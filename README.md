@@ -53,7 +53,7 @@ The following query parameters will be supported.
 | `lda_alpha` | `float` | No | Soon | LDA document-topic density.|
 | `lda_beta` | `float` | No | Soon | LDA topic-word density.|
 | `lda_v` | `int` | No | Soon | Vocabulary size.|
-| `bert_embed` | `string` | No | Soon | Transformer embedding (e.g., '`roberta-large`').|
+| `bert_embed` | `string` | No | Soon | Transformer embedding.|
 | `bert_min_cluster` | `int` | No | Soon |  HDBSCAN min cluster.|
 | `bert_hdbscan_metric` | `string` | No | Soon |  HDBSCAN metric (e.g., '`euclidean`').
 | `bert_cluster_select` | `int` | No | Soon |  HDBSCAN cluster selection.|
