@@ -73,7 +73,7 @@ The following query parameters will be supported.
 ## Body / Payload
 SenTopic requires that data be submitted either as a JSON payload or file attachments (including `.json` files).
 
-### JSON
+### JSON Payload
 SenTopic payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
 
 ```bash
