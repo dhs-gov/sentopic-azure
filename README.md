@@ -48,8 +48,8 @@ The following query parameters will be supported.
 | Key | Value | Required | Available | Description |
 | :--- | :----: | :----: | :----: | :--- |
 | `lda_num` | `int` | No | Soon | Number of LDA topics.|
-| `lda_lemma` | `boolean` | No | Soon | LDA lemmatizer algorithm.|
-| `lda_stem` | `boolean` | No | Soon | LDA stemmer algorithm.|
+| `lda_lemma` | `string` | No | Soon | LDA lemmatizer algorithm.|
+| `lda_stem` | `string` | No | Soon | LDA stemmer algorithm.|
 | `lda_alpha` | `float` | No | Soon | LDA document-topic density.|
 | `lda_beta` | `float` | No | Soon | LDA topic-word density.|
 | `lda_v` | `int` | No | Soon | Vocabulary size.|
