@@ -45,7 +45,7 @@ def get_topics(csv_rows, num_topics):
     # Create p_stemmer of class PorterStemmer
     p_stemmer = PorterStemmer()
 
-    # Text data to iterate over
+    # Text data to iterate
     text_data = [line for line in csv_rows if line != '']
 
     # Convert text data into a list of comments after stop words and stemming are accounted for
@@ -99,10 +99,9 @@ def get_topics(csv_rows, num_topics):
     # Initialize hyperparameters in LDA
 
     # Dirichlet parameters
-    # Alpha is the parameter for the prior topic distribution within documents
+    # Set LDA document-topic density
     alpha = 0.2
-
-    # Beta is the parameter for the prior topic distribution within documents
+    # Set LDA topic-word density
     beta = 0.001
 
     # Text corpus iterations
