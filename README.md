@@ -82,15 +82,9 @@ curl --location --request POST 'https://<domain>/sentopic'
     --data-raw '{
         "documents": 
             [
-                {
-                    "text": "Having to report to work without being provided PPE."
-                },
-                {
-                    "text": "Teleworking at home."
-                },
-                {
-                    "text": "Things are good. Im ready to do the mission."
-                },
+                { "text": "Having to report to work without being provided PPE." },
+                { "text": "Teleworking at home." },
+                { "text": "Things are good. Im ready to do the mission." },
                 ...
             ],
         "stopwords":
