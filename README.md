@@ -74,7 +74,7 @@ The following query parameters will be supported.
 SenTopic requires that data be submitted either as a JSON payload or file attachments (including `.json` files).
 
 ### JSON Payload
-SenTopic payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
+SenTopic JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic'
@@ -119,7 +119,7 @@ curl --location --request POST 'https://<domain>/sentopic'
 ```
 
 ## Response
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a  set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
 
 | Service | Description |
 | :--- | :--- | 
