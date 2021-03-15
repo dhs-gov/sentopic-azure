@@ -1,8 +1,6 @@
 # SenTopic for Azure
 
-Version: 0.1a
-
-[![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) 
+[![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) [![Python 3.8](https://img.shields.io/github/v/release/dhs-gov/sentopic-azure)](https://img.shields.io/github/v/release/dhs-gov/sentopic-azure/) 
 
 SenTopic combines sentiment analysis and topic modeling into a single capability allowing for sentiment to be derived per generated topic and for topics to be derived per generated sentiment. This version of SenTopic is implemented as an asynchronous Azure Durable Function service and includes required Azure modules for endpoint, orchestrator, and activity.
 
