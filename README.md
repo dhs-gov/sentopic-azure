@@ -47,22 +47,22 @@ The following query parameters will be supported.
 
 | Key | Value | Required | Available | Description |
 | :--- | :----: | :----: | :----: | :--- |
-| `lda_num` | `int` | No | Soon | Set number of LDA topics.|
-| `lda_lemma` | `boolean` | No | Soon | Set use of LDA lemmatizer.|
-| `lda_stem` | `boolean` | No | Soon | Set use of LDA stemmer.|
-| `lda_alpha` | `float` | No | Soon | Set LDA document-topic density.|
-| `lda_beta` | `float` | No | Soon | Set LDA topic-word density.|
-| `lda_v` | `int` | No | Soon | Set vocabulary size.|
-| `bert_embed` | `string` | No | Soon | Set transformer embedding (e.g., '`roberta-large`').|
-| `bert_min_cluster` | `int` | No | Soon | Set HDBSCAN min cluster.|
-| `bert_hdbscan_metric` | `string` | No | Soon | Specify HDBSCAN metric (e.g., '`euclidean`').
-| `bert_cluster_select` | `int` | No | Soon | Specify HDBSCAN cluster selection.|
-| `bert_predict` | `boolean` | No | Soon | Set HDBSCAN prediction.|
-| `bert_neighbor` | `int` | No | Soon | Set UMAP n-neighbors.|
-| `bert_component` | `int` | No | Soon | Set UMAP n-components.|
-| `bert_min_dist` | `int` | No | Soon | Set UMAP min distance.|
-| `bert_umap_metric` | `string` | No | Soon | Set UMAP metric (e.g., '`cosine`').|
-| `bert_ngram` | `int` | No | Soon | Set vectorizer n-gram range.|
+| `lda_num` | `int` | No | Soon | Number of LDA topics.|
+| `lda_lemma` | `boolean` | No | Soon | LDA lemmatizer algorithm.|
+| `lda_stem` | `boolean` | No | Soon | LDA stemmer algorithm.|
+| `lda_alpha` | `float` | No | Soon | LDA document-topic density.|
+| `lda_beta` | `float` | No | Soon | LDA topic-word density.|
+| `lda_v` | `int` | No | Soon | Vocabulary size.|
+| `bert_embed` | `string` | No | Soon | Transformer embedding (e.g., '`roberta-large`').|
+| `bert_min_cluster` | `int` | No | Soon |  HDBSCAN min cluster.|
+| `bert_hdbscan_metric` | `string` | No | Soon |  HDBSCAN metric (e.g., '`euclidean`').
+| `bert_cluster_select` | `int` | No | Soon |  HDBSCAN cluster selection.|
+| `bert_predict` | `boolean` | No | Soon |  HDBSCAN prediction.|
+| `bert_neighbor` | `int` | No | Soon |  UMAP n-neighbors.|
+| `bert_component` | `int` | No | Soon |  UMAP n-components.|
+| `bert_min_dist` | `int` | No | Soon |  UMAP min distance.|
+| `bert_umap_metric` | `string` | No | Soon |  UMAP metric (e.g., '`cosine`').|
+| `bert_ngram` | `int` | No | Soon |  Vectorizer n-gram range.|
 
 
 ## Headers
