@@ -50,6 +50,7 @@ The following query parameters will be supported.
 | `lda_num` | `int` | No | Soon | Set number of LDA topics.|
 | `lda_lemma` | `boolean` | No | Soon | Set use of LDA lemmatizer.|
 | `lda_alpha` | `float` | No | Soon | Set LDA document-topic density.|
+| `lda_beta` | `float` | No | Soon | Set LDA topic-word density.|
 | `lda_v` | `int` | No | Soon | Set vocabulary size.|
 | `bert_embed` | `string` | No | Soon | Set transformer embedding (e.g., '`roberta-large`').|
 | `bert_min_cluster` | `int` | No | Soon | Set HDBSCAN min cluster.|
