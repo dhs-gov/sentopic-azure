@@ -6,7 +6,7 @@ import jsonpickle
 import azure.functions as func
 import azure.durable_functions as df
 import sentopic_activity
-from converters import dataextractor
+from converters import data_extractor
 
 valid_endpoint_namesnames = ['sentopic']
 
@@ -18,13 +18,16 @@ async def main(req: func.HttpRequest, starter: str) -> func.HttpResponse:
         return func.HttpResponse("Invalid endpoint name.", status_code=400)
 
     # Get incoming data
-    error, data_in = dataextractor.get_data(req)
+    data_in, error = data_extractor.get_data(req)
 
     if error:
-        return func.HttpResponse("Error: " + error, status_code=400)
+        return func.HttpResponse(error, status_code=400)
+    print("Data in: ", data_in)
+    return func.HttpResponse("QUIT FOR DEBUG:\n", status_code=200)
+    print("STOPPING!")
+    quit()
 
-    if not data_in:
-        return func.HttpResponse("Error: Could not extract data." + error, status_code=400)
+    # --------------------------------------------------------------------------------
 
     # ALL ASYNCHRONOUS REQUESTS
     print("mode: asynchronous")
