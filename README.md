@@ -77,21 +77,20 @@ SenTopic JSON payloads require a `documents` key that defines a list of JSON obj
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic'
-    --header 'Content-Type: application/json'
-    --data-raw '{
-        "documents": 
-            [
-                { "text": "Having to report to work without being provided PPE." },
-                { "text": "Teleworking at home." },
-                { "text": "Things are good. Im ready to do the mission." },
-                ...
-            ],
-        "stopwords":
-            [
-                "the", "list", "of", "stop", "words", "go", "here"
-            ]
-    }   '
-
+  --header 'Content-Type: application/json'
+  --data-raw '{
+    "documents": 
+      [
+        { "text": "Having to report to work without being provided PPE." },
+        { "text": "Teleworking at home." },
+        { "text": "Things are good. Im ready to do the mission." },
+        ...
+      ],
+    "stopwords":
+      [
+        "the", "list", "of", "stop", "words", "go", "here"
+      ]
+  }   '
 ```
 
 ### Multipart Form Data 
@@ -111,10 +110,10 @@ Note that each file attachment may use the same `file` parameter name. Optionall
 
 ```bash
 curl --location --request POST 'https://<domain>/sentopic' 
-    --header 'Content-Type: multipart/form-data' 
-    --form 'file=@"data_file.json"' 
-    --form 'file=@"data_file.csv"' 
-    --form 'file=@"stopwords.txt"' 
+  --header 'Content-Type: multipart/form-data' 
+  --form 'file=@"data_file.json"' 
+  --form 'file=@"data_file.csv"' 
+  --form 'file=@"stopwords.txt"' 
 ```
 
 ## Response
@@ -131,12 +130,12 @@ Azure returns this set of endpoints as a JSON object.
 
 ```json
 {
-    "id": "1befa48c1d4644c7856803c0b3c797b9",
-    "statusQueryGetUri": "http://localhost:7071/runtime/webhooks/durabletask/a",
-    "sendEventPostUri": "http://localhost:7071/runtime/webhooks/durabletask/b",
-    "terminatePostUri": "http://localhost:7071/runtime/webhooks/durabletask/c",
-    "rewindPostUri": "http://localhost:7071/runtime/webhooks/durabletask/d",
-    "purgeHistoryDeleteUri": "http://localhost:7071/runtime/webhooks/durabletask/e"
+  "id": "1befa48c1d4644c7856803c0b3c797b9",
+  "statusQueryGetUri": "http://localhost:7071/runtime/webhooks/durabletask/a",
+  "sendEventPostUri": "http://localhost:7071/runtime/webhooks/durabletask/b",
+  "terminatePostUri": "http://localhost:7071/runtime/webhooks/durabletask/c",
+  "rewindPostUri": "http://localhost:7071/runtime/webhooks/durabletask/d",
+  "purgeHistoryDeleteUri": "http://localhost:7071/runtime/webhooks/durabletask/e"
 }
 ```
 
@@ -156,122 +155,122 @@ The following shows partial JSON results (excluding surrounding double quotes an
 
 ```json
 {
-    "name": "sentopic",
-    "instanceId": "34521eb8bca84a568e60c33a92a10e6f",
-    "runtimeStatus": "Completed",
-    "input": 
-        [
-            "Having to report to work without being provided PPE.", 
-            "Teleworking at home.", 
-            "Things are good. Im ready to do the mission.",
-            ...
-        ],
-    "output": 
-        [
+  "name": "sentopic",
+  "instanceId": "34521eb8bca84a568e60c33a92a10e6f",
+  "runtimeStatus": "Completed",
+  "input": 
+    [
+      "Having to report to work without being provided PPE.", 
+      "Teleworking at home.", 
+      "Things are good. Im ready to do the mission.",
+      ...
+    ],
+  "output": 
+    [
+      {
+        "result": 
+          [
             {
-                "result": 
-                    [
-                        {
-                            "text": "Having to report to work without being provided PPE.", 
-                            "bertopic": 3, 
-                            "lda": 0, 
-                            "class3": "negative", 
-                            "star5": "1_star"
-                        }, 
-                        {
-                            "text": "Teleworking at home.", 
-                            "bertopic": 3, 
-                            "lda": 2, 
-                            "class3": "neutral",
-                            "star5": "3_stars"
-                        }, 
-                        {
-                            "text": "Things are good. Im ready to do the mission.", 
-                            "bertopic": 3, 
-                            "lda": 1, 
-                            "class3": "positive",
-                            "star5": "4_stars"
-                        },
-                        ...
-                    ],
-                "bert_topics": 
-                    [
-                        {
-                            "topic_num": 1,
-                            "words": 
-                                [
-                                    "office",
-                                    "worried",
-                                    "pandemic",
-                                    ...
-                                ],
-                            "weights": 
-                                [
-                                    "0.02923134401914028",
-                                    "0.024890853269684016",
-                                    "0.017575496779442725",
-                                    ...
-                                ]
-                        },
-                        {
-                            "topic_num": 0,
-                            "words": 
-                                [
-                                    "ppe",
-                                    "sick",
-                                    "basic",
-                                    ...
-                                ],
-                            "weights": 
-                                [
-                                    "0.031044011584768025",
-                                    "0.023283008688576017",
-                                    "0.018350063606810418",
-                                    ...
-                                ]
-                        },
-                        ...
-                    ]
-                "lda_topics": 
-                    [
-                        {
-                            "topic_num": 0,
-                            "words": 
-                                [
-                                    "office",
-                                    "contact",
-                                    "family",
-                                    ...
-                                ],
-                            "weights": 
-                                [
-                                    "0.015873207055777317",
-                                    "0.015873207055777317",
-                                    "0.015873207055777317",
-                                    ...
-                                ]
-                        },
-                        {
-                            "topic_num": 2,
-                            "words": 
-                                [
-                                    "management",
-                                    "ppe",
-                                    "worried",              
-                                    ...
-                                ],
-                            "weights": 
-                                [
-                                    "0.020000736711478756",
-                                    "0.020000736711478756",
-                                    "0.015000546251962761",
-                                    ...
-                                ]
-                        },
-                        ...
-                    ], 
-            }
-        ],
+              "text": "Having to report to work without being provided PPE.", 
+              "bertopic": 3, 
+              "lda": 0, 
+              "class3": "negative", 
+              "star5": "1_star"
+            }, 
+            {
+              "text": "Teleworking at home.", 
+              "bertopic": 3, 
+              "lda": 2, 
+              "class3": "neutral",
+              "star5": "3_stars"
+            }, 
+            {
+              "text": "Things are good. Im ready to do the mission.", 
+              "bertopic": 3, 
+              "lda": 1, 
+              "class3": "positive",
+              "star5": "4_stars"
+            },
+            ...
+          ],
+        "bert_topics": 
+          [
+            {
+              "topic_num": 1,
+              "words": 
+                [
+                  "office",
+                  "worried",
+                  "pandemic",
+                  ...
+                ],
+              "weights": 
+                [
+                  "0.02923134401914028",
+                  "0.024890853269684016",
+                  "0.017575496779442725",
+                  ...
+                ]
+            },
+            {
+              "topic_num": 0,
+              "words": 
+                [
+                  "ppe",
+                  "sick",
+                  "basic",
+                  ...
+                ],
+              "weights": 
+                [
+                  "0.031044011584768025",
+                  "0.023283008688576017",
+                  "0.018350063606810418",
+                  ...
+                ]
+            },
+            ...
+          ],
+        "lda_topics": 
+          [
+            {
+              "topic_num": 0,
+              "words": 
+                [
+                  "office",
+                  "contact",
+                  "family",
+                  ...
+                ],
+              "weights": 
+                [
+                  "0.015873207055777317",
+                  "0.015873207055777317",
+                  "0.015873207055777317",
+                  ...
+                ]
+            },
+            {
+              "topic_num": 2,
+              "words": 
+                [
+                  "management",
+                  "ppe",
+                  "worried",              
+                  ...
+                ],
+              "weights": 
+                [
+                  "0.020000736711478756",
+                  "0.020000736711478756",
+                  "0.015000546251962761",
+                  ...
+                ]
+            },
+            ...
+            ], 
+      }
+    ],
     "createdTime": "2021-03-14T06:34:10Z",
     "lastUpdatedTime": "2021-03-14T06:34:43Z"
 }
