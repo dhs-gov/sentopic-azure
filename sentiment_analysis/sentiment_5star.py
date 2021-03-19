@@ -64,13 +64,21 @@ def get_sentiment(classifier, text):
         return sentiment
 
 
-def assess(classifier, csv_rows):
+def assess(classifier, docs):
     print("Assessing 5-star sentiment")
     sentiments = []
+    i = 0
+    
+    for doc in docs:
+        #print("doc: ", doc)
+        sentiment = get_sentiment(classifier, doc)
 
-    for csv_row in csv_rows:
-        sentiment = get_sentiment(classifier, csv_row)
         if sentiment:
             sentiments.append(sentiment)
+        else:
+            print("Error: sentiment is NoneType")
+        if i % 10 == 0:
+            print("Processing doc: ", i)
+        i = i + 1
 
     return sentiments

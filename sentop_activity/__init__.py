@@ -6,7 +6,7 @@ from topic_modeling import topic_mod_bertopic
 from topic_modeling import topic_mod_lda
 from topic_modeling import all_stopwords
 from sentiment_analysis import sentiment_3class, sentiment_5star
-import os, psutil
+from globals import globalutils
 import json
 import jsonpickle
 
@@ -32,31 +32,50 @@ class Topic:
         self.topic_num = topic_num
         self.word_weight = word_weight
 
+
 class Word:
     def __init__(self, word, weight):
         self.word = word
         self.weight = weight
 
+
 # Here, 'name' is the incoming data_in payload.
 def main(name: object) -> json:
 
-    data_list = name
+    json_obj = name
+    data_in_obj = jsonpickle.decode(json_obj)
+    data_list = data_in_obj.data_in
+    stop_words = data_in_obj.stop_words
+    print("Stop words in activity: ", stop_words)
 
     # Get sentiment for each row
     classifier = EasySequenceClassifier()
     class3_sentiment_rows = sentiment_3class.assess(classifier, data_list)
     star5_sentiment_rows = sentiment_5star.assess(classifier, data_list)
-    print("Memory 1: ", psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
+    print("DONE sentiment, mem: ", globalutils.get_memory())
+
+    return "QUITTING"
 
     # Get topic numbers for each row, and words per topic
     bert_sentence_topics, bert_topics, bert_error = topic_mod_bertopic.get_topics(data_list)
-    print("Num bert topics: ", len(bert_topics))
+    if bert_topics:
+        print("Num bert topics: ", len(bert_topics))
+    else:
+        print("WARNING: No BERT topics could be generated.")
 
     lda_sentence_topics, lda_topics, lda_error = topic_mod_lda.get_topics(data_list, 4)
-    print("Num lda topics: ", len(lda_topics))
+    if lda_topics:
+        print("Num bert topics: ", len(lda_topics))
+    else:
+        print("WARNING: No LDA topics could be generated.")
 
-    print("Memory 2: ", psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
-    print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2)
+    print("DONE topic modeling, mem: ", globalutils.get_memory())
+
+
+    # ************************************************************
+    return "QUITTING"
+
+
 
     # Print topic distribution
     if not bert_error:

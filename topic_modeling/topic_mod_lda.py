@@ -299,6 +299,14 @@ def get_topics(csv_rows, num_topics):
         key_list = []
         weight_list = []
         max_words_per_topic = 10
+        '''
+        if key_weight_list:
+            print("key_weight_list: ", key_weight_list)
+            print("key_weight_list len: ", len(key_weight_list))
+        else:
+            print("No key_weight_list")
+        '''
+        
         for k in range(0, max_words_per_topic):
             #print("k: ", k)
             key_list.append(key_weight_list[k].key)

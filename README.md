@@ -1,12 +1,12 @@
-# SenTopic for Azure
+# SenTop for Azure
 
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/) [![Python 3.8](https://img.shields.io/github/v/release/dhs-gov/sentopic-azure)](https://img.shields.io/github/v/release/dhs-gov/sentopic-azure/)
 
-SenTopic combines sentiment analysis and topic modeling into a single capability allowing for sentiment to be derived per generated topic and for topics to be derived per generated sentiment. This version of SenTopic is implemented as an asynchronous Azure Durable Function service and includes required Azure modules for endpoint, orchestrator, and activity.
+SenTop combines sentiment analysis and topic modeling into a single capability allowing for sentiment to be derived per generated topic and for topics to be derived per generated sentiment. This version of SenTop is implemented as an asynchronous Azure Durable Function service and includes required Azure modules for endpoint, orchestrator, and activity.
 
 ## Sentiment Analysis
 
-Sentiment analysis is performed using [AdaptNLP](https://github.com/Novetta/adaptnlp) with state-of-the-art (SOTA) [Hugging Face Transformers](https://github.com/huggingface/transformers).  SenTopic uses two separate transformers to provide two types of sentiment analysis:
+Sentiment analysis is performed using [AdaptNLP](https://github.com/Novetta/adaptnlp) with state-of-the-art (SOTA) [Hugging Face Transformers](https://github.com/huggingface/transformers).  SenTop uses two separate transformers to provide two types of sentiment analysis:
 
 1. [RoBERTa Base Sentiment](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment) for 3-class sentiment (negative, neutral, positive) -- based on Facebook AI's [RoBERTa](https://ai.facebook.com/blog/roberta-an-optimized-method-for-pretraining-self-supervised-nlp-systems/)
 2. [BERT Base Multilingual Uncased Sentiment](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment) for 5-star sentiment (1 star, 2 stars, ..., 5 stars) -- based on Google's [Bidirectional Encoder Representations from Transformers (BERT)](https://en.wikipedia.org/wiki/BERT_(language_model))
@@ -14,7 +14,7 @@ Sentiment analysis is performed using [AdaptNLP](https://github.com/Novetta/adap
 
 ## Topic Modeling
 
-SenTopic provides two types of topic modeling: [Latent Dirichlet Allocation (LDA)](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) and transformer-based [BERTopic](https://github.com/MaartenGr/BERTopic). While LDA provides de facto, statistical-based topic modeling, BERTopic provides SOTA-level performance using [Hugging Face Transformers](https://github.com/huggingface/transformers). Transformers that have been tested include:
+SenTop provides two types of topic modeling: [Latent Dirichlet Allocation (LDA)](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation) and transformer-based [BERTopic](https://github.com/MaartenGr/BERTopic). While LDA provides de facto, statistical-based topic modeling, BERTopic provides SOTA-level performance using [Hugging Face Transformers](https://github.com/huggingface/transformers). Transformers that have been tested include:
 
 1. [BERT Base Uncased](https://huggingface.co/bert-base-uncased) -- based on Google's [Bidirectional Encoder Representations from Transformers (BERT)](https://en.wikipedia.org/wiki/BERT_(language_model))
 2. [XLM RoBERTa Base](https://huggingface.co/xlm-roberta-base) -- based on [XLM-RoBERTa](https://huggingface.co/transformers/model_doc/xlmroberta.html)
@@ -22,7 +22,7 @@ SenTopic provides two types of topic modeling: [Latent Dirichlet Allocation (LDA
 
 ## Combining Sentiment Analysis and Topic Modeling
 
-SenTopic combines sentiment analysis and topic modeling by performing both at the document (i.e., paragraph) level for a corpus, the results of which can then be represented by a table as shown below.
+SenTop combines sentiment analysis and topic modeling by performing both at the document (i.e., paragraph) level for a corpus, the results of which can then be represented by a table as shown below.
 
 
 | Document | BERT Topic | LDA Topic | 3-Class Sentiment | 5-Class Sentiment |
@@ -38,7 +38,7 @@ SenTopic combines sentiment analysis and topic modeling by performing both at th
 
 Description: Submit data for analysis.  
 Method:  `POST`  
-URL:  `https://<domain>/sentopic`   
+URL:  `https://<domain>/sentop`   
 
 ## Request
 The following query parameters will be supported. 
@@ -70,13 +70,13 @@ The following query parameters will be supported.
 | `Content-Type` | `application/json`,<br>`multipart/form-data` | Yes | Specify <i>either</i> JSON or multi-part form payloads. If both JSON and multi-part form payloads are submitted, the JSON payload must be attached as a file (See Multipart Form Data). |
 
 ## Body / Payload
-SenTopic requires that data be submitted either as a JSON payload or file attachments (including `.json` files).
+SenTop requires that data be submitted either as a JSON payload or file attachments (including `.json` files).
 
 ### JSON Payload
-SenTopic JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
+SenTop JSON payloads require a `documents` key that defines a list of JSON objects, each of which consists of a `text` key and a document (or paragraph) string value. Optionally, a list of stop words may be added for the corpus domain using the `stopwords` key.
 
 ```bash
-curl --location --request POST 'https://<domain>/sentopic'
+curl --location --request POST 'https://<domain>/sentop'
   --header 'Content-Type: application/json'
   --data-raw '{
     "documents": 
@@ -94,7 +94,7 @@ curl --location --request POST 'https://<domain>/sentopic'
 ```
 
 ### Multipart Form Data 
-SenTopic supports one or more file attachments. The supported file types include:
+SenTop supports one or more file attachments. The supported file types include:
 
 | Type | Available | Description |
 | :--- | :---: | :--- |
@@ -109,7 +109,7 @@ SenTopic supports one or more file attachments. The supported file types include
 Note that each file attachment may use the same `file` parameter name. Optionally, a stop words list may be added using the file name `stopwords.txt`. 
 
 ```bash
-curl --location --request POST 'https://<domain>/sentopic' 
+curl --location --request POST 'https://<domain>/sentop' 
   --header 'Content-Type: multipart/form-data' 
   --form 'file=@"data_file.json"' 
   --form 'file=@"data_file.csv"' 
@@ -117,7 +117,7 @@ curl --location --request POST 'https://<domain>/sentopic'
 ```
 
 ## Response
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will return a set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTop will return a set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
 
 | Service | Description |
 | :--- | :--- | 
@@ -140,7 +140,7 @@ Azure returns this set of endpoints as a JSON object.
 ```
 
 ## Response Codes
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic will normally result in an `HTTP 202 Accepted` after SenTopic has received all data. 
+Due to the asynchronous nature of Azure Durable Functions, a request to SenTop will normally result in an `HTTP 202 Accepted` after SenTop has received all data. 
 
 | Code | Payload | Description |
 | :--- | :----: | :--- |
@@ -149,13 +149,13 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SenTopic
 | `500` | None | Internal Server Error.|
 
 ## Results
-SenTopic results are available from the `statusQueryGetUri` endpoint after SenTopic has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results (1) as a double-quoted string and (2) that contain escaped double quotes around keys and values.</i>. 
+SenTop results are available from the `statusQueryGetUri` endpoint after SenTop has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results (1) as a double-quoted string and (2) that contain escaped double quotes around keys and values.</i>. 
 
 The following shows partial JSON results (excluding surrounding double quotes and quoted keys/values). Ellipses denote omitted data.
 
 ```json
 {
-  "name": "sentopic",
+  "name": "sentop",
   "instanceId": "34521eb8bca84a568e60c33a92a10e6f",
   "runtimeStatus": "Completed",
   "input": 

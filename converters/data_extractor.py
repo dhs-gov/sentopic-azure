@@ -37,25 +37,26 @@ def clean_json(text):
     return text
 
 
+# Output: data, error, stop_words
 def get_json_payload(json_obj):
     try:
         docs = json_obj.get('documents')
         if not docs:
-            return None, "[data_extractor.get_json_payload()] No 'documents' key found."
+            return None, "[data_extractor.get_json_payload()] No 'documents' key found.", None
         data = []
         for doc in docs:
             text = doc.get('text')
             print("text: ", text)
             if not text:
-                return None, "[data_extractor.get_json_payload()] No 'text' key found."
+                return None, "[data_extractor.get_json_payload()] No 'text' key found.", None
             data.append(clean_json(text))
             print("json data: ", data)
         if data:
-            return data, None
+            return data, None, None
         else:
             return None, "[data_extractor.get_json_payload()] No data found in JSON."
     except Exception as e:    
-        return None, str(e)
+        return None, str(e), None
 
 
 def get_file_text(bytes, is_json):
@@ -133,14 +134,16 @@ def get_data(req):
     try:
         # If no JSON payload, check files
         data_all = []
+        stop_words = []
+        print("File vals: ", req.files.values().__sizeof__)
         for input_file in req.files.values():
             filename = input_file.filename
-            print("Filename: ", filename)
+            print("Received file: ", filename)
             contents = input_file.stream.read()
             #print("byte contents: ", contents)
             data_list = []
             if filename == 'stopwords.txt':
-                print("[data_extractor] Found stopwords.txt")
+                stop_words, error = get_file_data(contents, is_json=False)
             elif filename.endswith('.txt'):
                 data_list, error = get_file_data(contents, is_json=False)
             elif filename.endswith('.json'):
@@ -157,15 +160,17 @@ def get_data(req):
                 # Use extend if merging one list into another
                 data_all.extend(data_list)
             elif error:
-                return None, error
+                return None, error, None
+
         if data_all:
-            print("data_all: ", data_all)
-            return data_all, None
+            #print("data_all: ", data_all)
+            return data_all, None, stop_words
         else:
-            return None, "[data_extractor] No JSON or file payload detected."
+            return None, "[data_extractor] No JSON or file payload detected.", None
+
     except Exception as e:    
         print("[data_extractor] Exception: ", str(e))
-        return None, str(e)
+        return None, str(e), None
 
 
 
