@@ -6,7 +6,7 @@ SENTOP combines sentiment analysis and topic modeling into a single capability a
 
 ## Sentiment Analysis
 
-Sentiment analysis is performed using [AdaptNLP](https://github.com/Novetta/adaptnlp) with state-of-the-art (SOTA) [Hugging Face Transformers](https://github.com/huggingface/transformers).  SenTop uses two separate transformers to provide two types of sentiment analysis:
+Sentiment analysis is performed using [AdaptNLP](https://github.com/Novetta/adaptnlp) with state-of-the-art (SOTA) [Hugging Face Transformers](https://github.com/huggingface/transformers).  SENTOP uses two separate transformers to provide two types of sentiment analysis:
 
 1. [RoBERTa Base Sentiment](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment) for 3-class sentiment (negative, neutral, positive) -- based on Facebook AI's [RoBERTa](https://ai.facebook.com/blog/roberta-an-optimized-method-for-pretraining-self-supervised-nlp-systems/)
 2. [BERT Base Multilingual Uncased Sentiment](https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment) for 5-star sentiment (1 star, 2 stars, ..., 5 stars) -- based on Google's [Bidirectional Encoder Representations from Transformers (BERT)](https://en.wikipedia.org/wiki/BERT_(language_model))
@@ -117,7 +117,7 @@ curl --location --request POST 'https://<domain>/sentop'
 ```
 
 ## Response
-Due to the asynchronous nature of Azure Durable Functions, a request to SenTop will return a set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
+Due to the asynchronous nature of Azure Durable Functions, a request to SENTOP will return a set of Azure service endpoints that may be used to invoke further actions, such as retrieving results. These endpoints are defined in the [Azure HttpManagementPayload API](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.webjobs.extensions.durabletask?view=azure-dotnet) and include:
 
 | Service | Description |
 | :--- | :--- | 
@@ -149,7 +149,7 @@ Due to the asynchronous nature of Azure Durable Functions, a request to SENTOP w
 | `500` | None | Internal Server Error.|
 
 ## Results
-SENTOP results are available from the `statusQueryGetUri` endpoint after SenTop has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results (1) as a double-quoted string and (2) that contain escaped double quotes around keys and values.</i>. 
+SENTOP results are available from the `statusQueryGetUri` endpoint after SENTOP has completed processing the data. <i>NOTE: Azure Durable Functions return JSON results (1) as a double-quoted string and (2) that contain escaped double quotes around keys and values.</i>. 
 
 The following shows partial JSON results (excluding surrounding double quotes and quoted keys/values). Ellipses denote omitted data.
 
